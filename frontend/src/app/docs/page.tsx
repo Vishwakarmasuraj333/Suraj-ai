@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 
 export const metadata: Metadata = {
   title: "Documentation & API Reference",
@@ -45,11 +46,12 @@ const API_GROUPS = [
 
 export default function DocsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="global" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-14 space-y-8 sm:px-6 lg:px-8">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-5xl px-4 py-14 space-y-8 sm:px-6 lg:px-8">
         <div>
-          <span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">
+          <span className="rounded-full border border-cyan-500/35 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-700 dark:text-cyan-400">
             Technical Reference
           </span>
           <h1 className="mt-4 text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">

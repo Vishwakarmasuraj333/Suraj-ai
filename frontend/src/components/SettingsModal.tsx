@@ -159,7 +159,7 @@ export function SettingsModal({
                     onClick={() => setTab(item.id as typeof tab)}
                     className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2 transition ${
                       active
-                        ? "bg-orange-500/15 text-orange-600 dark:text-orange-300"
+                        ? "bg-cyan-500/15 text-cyan-600 dark:text-cyan-300"
                         : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/5"
                     }`}
                   >
@@ -250,7 +250,7 @@ export function SettingsModal({
                   <div>
                     <div className="mb-1 flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-300">
                       <span>Creativity (Temperature)</span>
-                      <span className="font-mono text-orange-500">{temperature.toFixed(1)}</span>
+                      <span className="font-mono text-cyan-500">{temperature.toFixed(1)}</span>
                     </div>
                     <input
                       type="range"
@@ -259,7 +259,7 @@ export function SettingsModal({
                       step={0.1}
                       value={temperature}
                       onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                      className="w-full accent-orange-500"
+                      className="w-full accent-cyan-500"
                     />
                   </div>
 
@@ -272,7 +272,7 @@ export function SettingsModal({
                       value={systemInstructions}
                       onChange={(e) => setSystemInstructions(e.target.value)}
                       placeholder="Optional persistent instructions (e.g., 'Always include TypeScript types and time complexity analysis')."
-                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-orange-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-cyan-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                     />
                   </div>
 
@@ -303,7 +303,7 @@ export function SettingsModal({
                       type="button"
                       onClick={handleSave}
                       disabled={saving || !user}
-                      className="ml-auto inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-orange-500/20 hover:brightness-105 disabled:opacity-50"
+                      className="ml-auto inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-cyan-500/20 hover:brightness-110 disabled:opacity-50"
                     >
                       {savedNotice ? (
                         <CheckCircle2 className="h-4 w-4" />
@@ -320,7 +320,7 @@ export function SettingsModal({
                 <div className="space-y-4">
                   <div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-white/10 dark:bg-white/[0.03]">
                     <div className="flex items-center gap-3">
-                      <Database className="h-5 w-5 text-orange-500" />
+                      <Database className="h-5 w-5 text-cyan-500" />
                       <div>
                         <p className="text-sm font-semibold text-slate-900 dark:text-white">
                           Database ({capabilities.database_type.toUpperCase()})
@@ -357,7 +357,7 @@ export function SettingsModal({
                             </p>
                             <p className="text-xs text-slate-500 dark:text-slate-400">
                               Env var:{" "}
-                              <code className="font-mono text-orange-500">
+                              <code className="font-mono text-cyan-500">
                                 {p.required_env_var}
                               </code>{" "}
                               · Models: {p.models.join(", ")}
@@ -393,7 +393,7 @@ export function SettingsModal({
                             </p>
                             <p className="text-xs text-slate-500 dark:text-slate-400">
                               Env var:{" "}
-                              <code className="font-mono text-orange-500">
+                              <code className="font-mono text-cyan-500">
                                 {ip.required_env_var}
                               </code>
                             </p>

@@ -33,7 +33,7 @@ export const AnimatedBackground = React.memo(function AnimatedBackground({
   fixed = false,
   className = "",
 }: AnimatedBackgroundProps) {
-  const { paused, deviceTier, isTouchDevice } = useMotionEnvironment();
+  const { paused, deviceTier, isTouchDevice, isDark } = useMotionEnvironment();
   const interactive =
     !paused &&
     !isTouchDevice &&
@@ -54,9 +54,9 @@ export const AnimatedBackground = React.memo(function AnimatedBackground({
         paused ? "bg-paused" : ""
       } ${className}`}
     >
-      {/* Base midnight cosmic atmosphere (dark mode) / whisper-clean wash (light mode) */}
+      {/* Base midnight cosmic atmosphere (dark mode) / luminous sapphire prism wash (light mode) */}
       {isHome && (
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_115%_80%_at_50%_-10%,rgba(6,182,212,0.08),transparent_55%),linear-gradient(180deg,#f8fafc_0%,#eef2ff_52%,#f8fafc_100%)] dark:bg-[radial-gradient(ellipse_115%_80%_at_50%_-10%,rgba(14,116,144,0.18),transparent_58%),linear-gradient(180deg,#020511_0%,#05091a_48%,#030612_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_115%_80%_at_50%_-10%,rgba(14,165,233,0.16),transparent_58%),linear-gradient(180deg,#edf4ff_0%,#e6efff_50%,#f3edff_100%)] dark:bg-[radial-gradient(ellipse_115%_80%_at_50%_-10%,rgba(14,116,144,0.18),transparent_58%),linear-gradient(180deg,#020511_0%,#05091a_48%,#030612_100%)]" />
       )}
 
       {/* Layer 1: Ambient Aurora */}
@@ -80,6 +80,7 @@ export const AnimatedBackground = React.memo(function AnimatedBackground({
       {(isHome || variant === "blog") && (
         <StarField
           paused={paused}
+          isDark={isDark}
           deviceTier={deviceTier}
           density={variant === "blog" ? "light" : "full"}
           enableShootingStars={variant !== "blog"}
@@ -122,6 +123,7 @@ export const AnimatedBackground = React.memo(function AnimatedBackground({
                     : "hero"
           }
           paused={paused}
+          isDark={isDark}
           deviceTier={deviceTier}
           pointerRef={interactive ? pointerRef : undefined}
         />
@@ -136,6 +138,7 @@ export const AnimatedBackground = React.memo(function AnimatedBackground({
         variant === "footer") && (
         <ParticleField
           paused={paused}
+          isDark={isDark}
           deviceTier={deviceTier}
           density={
             isHome

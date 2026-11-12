@@ -10,6 +10,7 @@ export interface MotionEnvironment {
   deviceTier: DeviceTier;
   isTouchDevice: boolean;
   paused: boolean;
+  isDark: boolean;
 }
 
 export function useMotionEnvironment(): MotionEnvironment {
@@ -17,13 +18,16 @@ export function useMotionEnvironment(): MotionEnvironment {
   const [isPageVisible, setIsPageVisible] = useState(true);
   const [deviceTier, setDeviceTier] = useState<DeviceTier>("desktop");
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const touchMq = window.matchMedia("(pointer: coarse)");
+    const htmlEl = document.documentElement;
 
+    const syncTheme = () => setIsDark(htmlEl.classList.contains("dark"));
     const updateTier = () => {
       const w = window.innerWidth;
       if (w < 768) {
@@ -38,11 +42,15 @@ export function useMotionEnvironment(): MotionEnvironment {
     setPrefersReducedMotion(motionMq.matches);
     setIsTouchDevice(touchMq.matches);
     setIsPageVisible(document.visibilityState !== "hidden");
+    syncTheme();
     updateTier();
 
     const onMotionChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     const onTouchChange = (e: MediaQueryListEvent) => setIsTouchDevice(e.matches);
     const onVisibilityChange = () => setIsPageVisible(document.visibilityState !== "hidden");
+
+    const themeObserver = new MutationObserver(syncTheme);
+    themeObserver.observe(htmlEl, { attributes: true, attributeFilter: ["class"] });
 
     motionMq.addEventListener("change", onMotionChange);
     touchMq.addEventListener("change", onTouchChange);
@@ -50,6 +58,7 @@ export function useMotionEnvironment(): MotionEnvironment {
     window.addEventListener("resize", updateTier, { passive: true });
 
     return () => {
+      themeObserver.disconnect();
       motionMq.removeEventListener("change", onMotionChange);
       touchMq.removeEventListener("change", onTouchChange);
       document.removeEventListener("visibilitychange", onVisibilityChange);
@@ -63,6 +72,7 @@ export function useMotionEnvironment(): MotionEnvironment {
     deviceTier,
     isTouchDevice,
     paused: prefersReducedMotion || !isPageVisible,
+    isDark,
   };
 }
 

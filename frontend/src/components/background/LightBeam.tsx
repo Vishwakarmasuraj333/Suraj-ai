@@ -23,7 +23,7 @@ export const LightBeam = React.memo(function LightBeam({
     >
       {/* Primary Diagonal Cyan Light Beam */}
       <div
-        className="suraj-motion-el absolute -top-24 left-0 h-[150%] w-[240px] bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent blur-xl dark:via-cyan-400/20 sm:w-[320px]"
+        className="suraj-motion-el absolute -top-24 left-0 h-[150%] w-[240px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent blur-xl dark:via-cyan-400/20 sm:w-[320px]"
         style={{
           animation: paused ? "none" : "neonBeamSweep 11s ease-in-out infinite",
         }}
@@ -32,7 +32,7 @@ export const LightBeam = React.memo(function LightBeam({
       {/* Secondary Diagonal Violet/Magenta Light Beam */}
       {!isCompact && (
         <div
-          className="suraj-motion-el absolute -top-24 left-0 h-[150%] w-[200px] bg-gradient-to-r from-transparent via-violet-500/12 to-transparent blur-2xl dark:via-fuchsia-500/16 sm:w-[260px]"
+          className="suraj-motion-el absolute -top-24 left-0 h-[150%] w-[200px] bg-gradient-to-r from-transparent via-violet-500/20 to-transparent blur-2xl dark:via-fuchsia-500/15 sm:w-[260px]"
           style={{
             animation: paused ? "none" : "neonBeamSweep 15s ease-in-out 4.5s infinite",
           }}
@@ -41,7 +41,7 @@ export const LightBeam = React.memo(function LightBeam({
 
       {/* Horizontal Light Sweep */}
       <div
-        className="suraj-motion-el absolute left-0 top-[28%] h-[1.5px] w-2/3 bg-gradient-to-r from-transparent via-cyan-300/35 to-transparent shadow-[0_0_12px_rgba(34,211,238,0.45)]"
+        className="suraj-motion-el absolute left-0 top-[28%] h-[1.5px] w-2/3 bg-gradient-to-r from-transparent via-cyan-600/50 dark:via-cyan-300/35 to-transparent shadow-[0_0_12px_rgba(8,145,178,0.4)] dark:shadow-[0_0_12px_rgba(34,211,238,0.45)]"
         style={{
           animation: paused ? "none" : "neonLineHorizontal 9.5s cubic-bezier(0.4,0,0.2,1) 1s infinite",
         }}
@@ -50,7 +50,7 @@ export const LightBeam = React.memo(function LightBeam({
       {/* Second Lower Horizontal Magenta/Blue Sweep */}
       {variant !== "subtle" && (
         <div
-          className="suraj-motion-el absolute left-0 top-[72%] h-[1.5px] w-1/2 bg-gradient-to-r from-transparent via-fuchsia-400/30 to-transparent shadow-[0_0_10px_rgba(217,70,239,0.35)]"
+          className="suraj-motion-el absolute left-0 top-[72%] h-[1.5px] w-1/2 bg-gradient-to-r from-transparent via-fuchsia-600/45 dark:via-fuchsia-400/30 to-transparent shadow-[0_0_10px_rgba(192,38,211,0.35)] dark:shadow-[0_0_10px_rgba(217,70,239,0.35)]"
           style={{
             animation: paused ? "none" : "neonLineHorizontal 13.5s cubic-bezier(0.4,0,0.2,1) 3.5s infinite",
           }}
@@ -60,7 +60,7 @@ export const LightBeam = React.memo(function LightBeam({
       {/* Vertical Light Streak */}
       {!isCompact && variant === "hero" && (
         <div
-          className="suraj-motion-el absolute left-[76%] top-0 h-[55%] w-[2px] bg-gradient-to-b from-transparent via-blue-400/60 to-transparent blur-[0.5px]"
+          className="suraj-motion-el absolute left-[76%] top-0 h-[55%] w-[2px] bg-gradient-to-b from-transparent via-blue-600/50 dark:via-blue-400/60 to-transparent blur-[0.5px]"
           style={{
             animation: paused ? "none" : "neonBeamVerticalSweep 12s ease-in-out 2s infinite",
           }}

@@ -63,7 +63,7 @@ const PERFORMANCE_CARDS = [
     anchor: "knowledge-rag",
     icon: FileSearch,
     badge: "Implemented",
-    badgeStyle: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+    badgeStyle: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30",
     title: "Knowledge RAG System",
     description:
       "Transform your documents into searchable knowledge. Upload supported documents, retrieve relevant sections using chunking and lexical scoring, and generate grounded answers with source attribution.",
@@ -80,7 +80,7 @@ const PERFORMANCE_CARDS = [
     anchor: "ai-memory",
     icon: Brain,
     badge: "Implemented",
-    badgeStyle: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+    badgeStyle: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30",
     title: "Long-Term AI Memory",
     description:
       "Build more contextual conversations with saved preferences, workflow context, and personalized assistance — cleanly separated from raw chat history.",
@@ -97,7 +97,7 @@ const PERFORMANCE_CARDS = [
     anchor: "ai-tools",
     icon: Wrench,
     badge: "Workspace Tools",
-    badgeStyle: "bg-cyan-500/15 text-cyan-300 border-cyan-400/30",
+    badgeStyle: "bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/35",
     title: "Automated AI Tools",
     description:
       "Extend AI conversations with built-in workspace capabilities and clearly labeled roadmap integrations.",
@@ -113,7 +113,7 @@ const PERFORMANCE_CARDS = [
     id: "vision",
     icon: Eye,
     badge: "Model-Dependent",
-    badgeStyle: "bg-blue-500/15 text-blue-300 border-blue-400/30",
+    badgeStyle: "bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/35",
     title: "Multimodal Vision",
     description:
       "Understand visual information with AI-powered image analysis when vision-capable OpenAI, Gemini, or Claude models are configured.",
@@ -129,7 +129,7 @@ const PERFORMANCE_CARDS = [
     id: "voice",
     icon: Mic,
     badge: "Planned Audio Backend",
-    badgeStyle: "bg-amber-500/15 text-amber-300 border-amber-500/30",
+    badgeStyle: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/35",
     title: "Voice Interface",
     description:
       "Voice input and audio playback controls are designed on the roadmap and activate only when dedicated audio STT/TTS integrations are configured.",
@@ -146,7 +146,7 @@ const PERFORMANCE_CARDS = [
     anchor: "security",
     icon: Lock,
     badge: "Verified Controls",
-    badgeStyle: "bg-violet-500/15 text-violet-300 border-violet-400/30",
+    badgeStyle: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/35",
     title: "Enterprise Security",
     description:
       "Protect user information through secure authentication, authorization, and carefully engineered backend controls without unverified compliance claims.",
@@ -349,7 +349,7 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
             <div className="relative z-10">
               <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                 <div>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cyan-400">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
                     <Database className="h-3.5 w-3.5" /> Interactive Launcher
                   </span>
                   <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
@@ -358,7 +358,7 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
                 </div>
                 <Link
                   href="/chat"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-700 dark:text-cyan-400 hover:underline"
                 >
                   Open Full Workspace <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
@@ -401,14 +401,14 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
             <div className="relative z-10">
               <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-violet-400">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-violet-700 dark:text-violet-400">
                   <BookOpen className="h-3.5 w-3.5" /> Engineering Insights
                 </span>
                 <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
                   Latest from SURAJ AI Blog
                 </h2>
               </div>
-              <Link href="/blog" className="text-xs font-semibold text-cyan-400 hover:underline">
+              <Link href="/blog" className="text-xs font-semibold text-cyan-700 dark:text-cyan-400 hover:underline">
                 View All Articles →
               </Link>
             </div>
@@ -446,24 +446,24 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
 
         {/* FINAL CTA BANNER */}
         <section className="mx-auto max-w-6xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-gradient-to-r from-[#07112b] via-[#0c1438] to-[#1a0f3a] p-8 text-center shadow-2xl sm:p-12">
-            <h2 className="text-2xl font-extrabold text-white sm:text-4xl">
+          <div className="relative overflow-hidden rounded-3xl border border-cyan-500/30 bg-gradient-to-r from-cyan-50/90 via-indigo-50/90 to-violet-50/90 p-8 text-center shadow-2xl backdrop-blur-xl dark:border-cyan-400/30 dark:from-[#07112b]/90 dark:via-[#0c1438]/90 dark:to-[#1a0f3a]/90 sm:p-12">
+            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">
               Build Smarter Workflows Inside SURAJ AI
             </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
+            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
               Start a real streaming session, inspect your document Knowledge RAG pipeline, or configure persistent user memory in seconds.
             </p>
             <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/chat"
-                className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 px-7 py-3.5 text-sm font-bold text-white shadow-xl hover:brightness-110"
+                className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 px-7 py-3.5 text-sm font-bold text-white shadow-xl shadow-cyan-500/20 hover:brightness-110"
               >
                 Launch SURAJ AI Workspace
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/auth"
-                className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10"
+                className="inline-flex items-center gap-2 rounded-2xl border border-slate-300 bg-white/80 px-6 py-3.5 text-sm font-semibold text-slate-800 hover:border-cyan-400/50 hover:bg-white dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
               >
                 Create Account
               </Link>

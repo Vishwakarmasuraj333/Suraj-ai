@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import { PasswordInput } from "@/components/PasswordInput";
 import { useAuth } from "@/components/AuthProvider";
 import { api, ApiError } from "@/lib/api";
@@ -223,9 +224,10 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="global" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-12 sm:px-6">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-4xl px-4 py-12 sm:px-6">
         {!smtpConfigured && (
           <div className="mb-6 flex items-start gap-2.5 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs text-amber-700 dark:text-amber-300">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />

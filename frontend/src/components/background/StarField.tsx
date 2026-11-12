@@ -28,16 +28,19 @@ interface ShootingStar {
 
 interface StarFieldProps {
   paused?: boolean;
+  isDark?: boolean;
   deviceTier?: DeviceTier;
   density?: "full" | "medium" | "light";
   enableShootingStars?: boolean;
   pointerRef?: React.MutableRefObject<{ nx: number; ny: number }>;
 }
 
-const STAR_COLORS = ["#e0f2fe", "#22d3ee", "#60a5fa", "#a78bfa", "#f8fafc"];
+const DARK_STAR_COLORS = ["#e0f2fe", "#22d3ee", "#60a5fa", "#a78bfa", "#f8fafc"];
+const LIGHT_STAR_COLORS = ["#0891b2", "#2563eb", "#7c3aed", "#0284c7", "#c026d3"];
 
 export const StarField = React.memo(function StarField({
   paused = false,
+  isDark = true,
   deviceTier = "desktop",
   density = "full",
   enableShootingStars = true,
@@ -50,6 +53,8 @@ export const StarField = React.memo(function StarField({
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const palette = isDark ? DARK_STAR_COLORS : LIGHT_STAR_COLORS;
 
     let width = 0;
     let height = 0;
@@ -82,10 +87,10 @@ export const StarField = React.memo(function StarField({
         vx: -(0.03 + Math.random() * 0.11),
         vy: -(0.015 + Math.random() * 0.07),
         radius: idx % 10 === 0 ? 1.35 + Math.random() * 0.35 : 0.55 + Math.random() * 0.75,
-        baseAlpha: 0.18 + Math.random() * 0.38,
+        baseAlpha: (isDark ? 0.18 : 0.34) + Math.random() * 0.38,
         twinkleSpeed: 0.0008 + Math.random() * 0.002,
         phase: Math.random() * Math.PI * 2,
-        color: STAR_COLORS[idx % STAR_COLORS.length],
+        color: palette[idx % palette.length],
         glow: idx % 7 === 0,
       }));
     };
@@ -112,7 +117,7 @@ export const StarField = React.memo(function StarField({
         vy: 2.3 + Math.random() * 1.6,
         length: 64 + Math.random() * 52,
         alpha: 0.95,
-        color: Math.random() > 0.4 ? "#22d3ee" : "#c084fc",
+        color: Math.random() > 0.4 ? (isDark ? "#22d3ee" : "#0891b2") : (isDark ? "#c084fc" : "#7c3aed"),
       });
     };
 
@@ -172,7 +177,7 @@ export const StarField = React.memo(function StarField({
         const tailX = sh.x - (sh.vx / mag) * sh.length;
         const tailY = sh.y - (sh.vy / mag) * sh.length;
         const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
-        grad.addColorStop(0, `rgba(248, 250, 252, ${sh.alpha})`);
+        grad.addColorStop(0, isDark ? `rgba(248, 250, 252, ${sh.alpha})` : `rgba(8, 145, 178, ${sh.alpha})`);
         grad.addColorStop(0.3, sh.color);
         grad.addColorStop(1, "rgba(34, 211, 238, 0)");
 
@@ -206,7 +211,7 @@ export const StarField = React.memo(function StarField({
       observer.disconnect();
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [paused, deviceTier, density, enableShootingStars, pointerRef]);
+  }, [paused, isDark, deviceTier, density, enableShootingStars, pointerRef]);
 
   return (
     <canvas

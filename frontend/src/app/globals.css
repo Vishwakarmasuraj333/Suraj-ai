@@ -5,21 +5,21 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #f8fafc;
+  --bg-primary: #edf4ff;
   --bg-surface: #ffffff;
-  --bg-elevated: rgba(255, 255, 255, 0.85);
-  --bg-glass: rgba(255, 255, 255, 0.78);
+  --bg-elevated: rgba(255, 255, 255, 0.86);
+  --bg-glass: rgba(255, 255, 255, 0.80);
   --border-subtle: rgba(15, 23, 42, 0.1);
   --border-glow: rgba(6, 182, 212, 0.35);
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --accent: #0891b2;
-  --accent-soft: rgba(6, 182, 212, 0.1);
+  --accent-soft: rgba(6, 182, 212, 0.12);
 }
 
 .dark {
-  --bg-primary: #040712;
-  --bg-surface: #090e21;
+  --bg-primary: #030612;
+  --bg-surface: #070b1a;
   --bg-elevated: rgba(7, 11, 26, 0.90);
   --bg-glass: rgba(7, 11, 26, 0.84);
   --border-subtle: rgba(148, 163, 184, 0.14);
@@ -215,14 +215,20 @@ body {
 
 .perspective-grid-floor {
   background-image:
-    linear-gradient(to right, rgba(34, 211, 238, 0.22) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(139, 92, 246, 0.24) 1px, transparent 1px);
+    linear-gradient(to right, rgba(8, 145, 178, 0.34) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(109, 40, 217, 0.32) 1px, transparent 1px);
   background-size: 56px 56px;
   transform: perspective(680px) rotateX(69deg);
   transform-origin: center top;
   animation: gridHorizonFlow 14s linear infinite;
   mask-image: radial-gradient(ellipse 90% 82% at 50% 20%, #000 18%, transparent 86%);
   -webkit-mask-image: radial-gradient(ellipse 90% 82% at 50% 20%, #000 18%, transparent 86%);
+}
+
+.dark .perspective-grid-floor {
+  background-image:
+    linear-gradient(to right, rgba(34, 211, 238, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.24) 1px, transparent 1px);
 }
 
 .bg-paused * {

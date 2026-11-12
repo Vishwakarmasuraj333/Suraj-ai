@@ -61,7 +61,7 @@ export function ChartBlock({ payload }: ChartBlockProps) {
     <div className="my-4 overflow-hidden rounded-xl border border-slate-200/80 bg-white/85 p-4 shadow-sm dark:border-white/10 dark:bg-slate-900/75">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <BarChart3 className="h-4 w-4 text-orange-500" />
+          <BarChart3 className="h-4 w-4 text-cyan-500" />
           <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
             {payload.title || "Interactive Data Chart"}
           </h4>

@@ -75,12 +75,12 @@ export function ImageStudioModal({
           >
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 via-blue-600 to-violet-600 text-white">
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <div>
                   <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                    SURaj AI Image Studio
+                    SURAJ AI Image Studio
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     Real API-backed image generation via OpenAI DALL-E 3 or Google Imagen 3.
@@ -176,7 +176,7 @@ export function ImageStudioModal({
               <button
                 type="submit"
                 disabled={loading || !prompt.trim()}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/20 hover:brightness-105 disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 py-2.5 text-sm font-semibold text-white shadow-md shadow-cyan-500/20 hover:brightness-110 disabled:opacity-50"
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                 {loading ? "Generating Image..." : "Generate Image"}

@@ -224,19 +224,19 @@ export const MessageBubble = React.memo(function MessageBubble({
               </div>
             </div>
           ) : (
-            <div className="rounded-2xl rounded-tr-sm bg-gradient-to-br from-slate-900 to-slate-800 px-4 py-3 text-sm leading-relaxed text-white shadow-md dark:from-orange-500/20 dark:to-amber-500/15 dark:text-slate-100 dark:ring-1 dark:ring-orange-500/30">
+            <div className="rounded-2xl rounded-tr-sm bg-gradient-to-br from-cyan-600 via-blue-600 to-violet-600 px-4 py-3 text-sm leading-relaxed text-white shadow-md dark:from-cyan-500/25 dark:via-blue-500/20 dark:to-violet-500/25 dark:text-slate-100 dark:ring-1 dark:ring-cyan-400/35">
               <p className="whitespace-pre-wrap">{message.content}</p>
             </div>
           )
         ) : (
-          <div className="w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200/80 bg-white/75 px-3.5 py-3 shadow-sm backdrop-blur-xl transition-shadow hover:shadow-md dark:border-white/10 dark:bg-white/[0.03] sm:px-5 sm:py-4">
+          <div className="w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200/80 bg-white/80 px-3.5 py-3 shadow-sm backdrop-blur-xl transition-shadow hover:shadow-md dark:border-white/10 dark:bg-[#070b1a]/85 sm:px-5 sm:py-4">
             {/* Typing indicator before first token */}
             {isStreamingThis && !message.content && (
               <div className="flex items-center gap-2 py-1 text-xs text-slate-400">
                 <span className="flex gap-1">
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-orange-500 [animation-delay:-0.3s]" />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-orange-500 [animation-delay:-0.15s]" />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-orange-500" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-cyan-500 [animation-delay:-0.3s]" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-blue-500 [animation-delay:-0.15s]" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-violet-500" />
                 </span>
                 <span>Thinking & streaming response...</span>
               </div>
@@ -266,7 +266,7 @@ export const MessageBubble = React.memo(function MessageBubble({
               )}
 
             {isStreamingThis && message.content && (
-              <span className="ml-1 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-orange-500 align-middle" />
+              <span className="ml-1 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-cyan-400 align-middle" />
             )}
 
             {/* Honest API key / error state */}

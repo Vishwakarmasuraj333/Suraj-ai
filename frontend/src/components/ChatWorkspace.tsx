@@ -15,8 +15,9 @@ import {
   Settings,
   Sun,
 } from "lucide-react";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
+import { AnimatedBackground } from "@/components/background";
 import { useAuth } from "@/components/AuthProvider";
+import { useTheme } from "@/components/ThemeProvider";
 import { Composer } from "@/components/Composer";
 import { MemoryDrawer } from "@/components/MemoryDrawer";
 import { MessageBubble } from "@/components/MessageBubble";
@@ -62,7 +63,8 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
   const [provider, setProvider] = useState("openai");
   const [model, setModel] = useState("gpt-4o-mini");
   const [language, setLanguage] = useState("auto");
-  const [isDark, setIsDark] = useState(true);
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   const [input, setInput] = useState("");
   const [pendingAttachments, setPendingAttachments] = useState<AttachmentSummary[]>([]);
@@ -84,31 +86,6 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
     setToastError(msg);
     setTimeout(() => setToastError((prev) => (prev === msg ? null : prev)), 5000);
   };
-
-  const resolveIsDark = useCallback((themeVal?: string) => {
-    if (themeVal === "light") return false;
-    if (themeVal === "system" && typeof window !== "undefined") {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return true;
-  }, []);
-
-  // Apply theme to <html>
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) root.classList.add("dark");
-    else root.classList.remove("dark");
-  }, [isDark]);
-
-  // Listen to OS theme changes when preference is set to "system"
-  useEffect(() => {
-    if (preferences?.theme !== "system" || typeof window === "undefined") return;
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const listener = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    setIsDark(mql.matches);
-    mql.addEventListener("change", listener);
-    return () => mql.removeEventListener("change", listener);
-  }, [preferences?.theme]);
 
   const loadConversations = useCallback(async (q?: string) => {
     try {
@@ -140,7 +117,9 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
       .then(([me, prefs]) => {
         setUser(me);
         setPreferences(prefs);
-        setIsDark(resolveIsDark(prefs.theme));
+        if (prefs.theme === "dark" || prefs.theme === "light" || prefs.theme === "system") {
+          setTheme(prefs.theme);
+        }
         setProvider(prefs.default_provider);
         setModel(prefs.default_model);
         setLanguage(prefs.preferred_language);
@@ -149,7 +128,7 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
       .catch(() => {
         setStoredToken(null);
       });
-  }, [loadConversations, resolveIsDark]);
+  }, [loadConversations, setTheme]);
 
   // Handle deep-link tool hints from homepage/cards
   useEffect(() => {
@@ -199,7 +178,9 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
     try {
       const prefs = await api.getPreferences();
       setPreferences(prefs);
-      setIsDark(resolveIsDark(prefs.theme));
+      if (prefs.theme === "dark" || prefs.theme === "light" || prefs.theme === "system") {
+        setTheme(prefs.theme);
+      }
       setProvider(prefs.default_provider);
       setModel(prefs.default_model);
       setLanguage(prefs.preferred_language);
@@ -546,18 +527,20 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
   const handleUpdatePreferences = async (patch: Partial<UserPreferences>) => {
     const updated = await api.updatePreferences(patch);
     setPreferences(updated);
-    setIsDark(resolveIsDark(updated.theme));
+    if (updated.theme === "dark" || updated.theme === "light" || updated.theme === "system") {
+      setTheme(updated.theme);
+    }
     setProvider(updated.default_provider);
     setModel(updated.default_model);
     setLanguage(updated.preferred_language);
   };
 
   const handleToggleTheme = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
+    const nextTheme = isDark ? "light" : "dark";
+    setTheme(nextTheme);
     if (user) {
       api
-        .updatePreferences({ theme: nextDark ? "dark" : "light" })
+        .updatePreferences({ theme: nextTheme })
         .then(setPreferences)
         .catch(() => {});
     }
@@ -603,8 +586,8 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
   }, [user]);
 
   return (
-    <div className="relative flex h-screen w-full overflow-hidden">
-      <AnimatedBackground />
+    <div className="relative isolate flex h-screen w-full overflow-hidden">
+      <AnimatedBackground variant="home" />
 
       <Sidebar
         conversations={conversations}
@@ -625,9 +608,9 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
       />
 
       {/* Main Workspace */}
-      <main className="relative flex flex-1 flex-col overflow-hidden">
+      <main className="relative z-10 flex flex-1 flex-col overflow-hidden">
         {/* Top Navigation Bar */}
-        <header className="flex h-14 shrink-0 items-center justify-between gap-1.5 border-b border-slate-200/70 bg-white/65 px-2.5 backdrop-blur-xl dark:border-white/10 dark:bg-[#090c14]/70 sm:gap-3 sm:px-5">
+        <header className="flex h-14 shrink-0 items-center justify-between gap-1.5 border-b border-slate-200/70 bg-white/75 px-2.5 backdrop-blur-xl dark:border-white/10 dark:bg-[#05091a]/75 sm:gap-3 sm:px-5">
           <div className="flex min-w-0 items-center gap-1.5 sm:gap-2.5">
             <button
               type="button"
@@ -643,7 +626,7 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
             </div>
 
             {/* Provider & Model selector */}
-            <div className="flex min-w-0 items-center gap-1 rounded-xl border border-slate-200/80 bg-white/80 px-2 py-1.5 text-xs shadow-sm transition hover:border-orange-500/35 dark:border-white/10 dark:bg-white/[0.04] sm:gap-1.5 sm:px-2.5">
+            <div className="flex min-w-0 items-center gap-1 rounded-xl border border-slate-200/80 bg-white/80 px-2 py-1.5 text-xs shadow-sm transition hover:border-cyan-400/50 dark:border-white/10 dark:bg-white/[0.04] sm:gap-1.5 sm:px-2.5">
               <span
                 title={currentProviderCap.configured ? "API Key Configured" : "API Key Required"}
                 className={`h-2 w-2 shrink-0 rounded-full ${
@@ -705,8 +688,8 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
             </button>
 
             {/* Language quick switcher */}
-            <div className="hidden items-center gap-1 rounded-xl border border-slate-200/80 bg-white/70 px-2.5 py-1.5 text-xs transition hover:border-orange-500/35 dark:border-white/10 dark:bg-white/[0.04] sm:flex">
-              <Languages className="h-3.5 w-3.5 text-orange-500" />
+            <div className="hidden items-center gap-1 rounded-xl border border-slate-200/80 bg-white/70 px-2.5 py-1.5 text-xs transition hover:border-cyan-400/50 dark:border-white/10 dark:bg-white/[0.04] sm:flex">
+              <Languages className="h-3.5 w-3.5 text-cyan-500" />
               <select
                 aria-label="Response language"
                 value={language}
@@ -724,16 +707,16 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
               type="button"
               onClick={handleToggleTheme}
               aria-label="Toggle dark or light theme"
-              className="rounded-xl border border-slate-200/80 bg-white/70 p-2 text-slate-600 transition hover:scale-105 hover:border-orange-500/35 hover:bg-slate-100 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-300 dark:hover:bg-white/10"
+              className="rounded-xl border border-slate-200/80 bg-white/70 p-2 text-slate-600 transition hover:scale-105 hover:border-cyan-400/50 hover:bg-slate-100 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-300 dark:hover:bg-white/10"
             >
-              {isDark ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4" />}
+              {isDark ? <Sun className="h-4 w-4 text-cyan-400" /> : <Moon className="h-4 w-4 text-violet-600" />}
             </button>
 
             <button
               type="button"
               onClick={() => setSettingsModalOpen(true)}
               aria-label="Open settings"
-              className="rounded-xl border border-slate-200/80 bg-white/70 p-2 text-slate-600 transition hover:scale-105 hover:border-orange-500/35 hover:bg-slate-100 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-300 dark:hover:bg-white/10"
+              className="rounded-xl border border-slate-200/80 bg-white/70 p-2 text-slate-600 transition hover:scale-105 hover:border-cyan-400/50 hover:bg-slate-100 active:scale-95 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-300 dark:hover:bg-white/10"
             >
               <Settings className="h-4 w-4" />
             </button>
@@ -742,7 +725,7 @@ export function ChatWorkspace({ initialTool }: { initialTool?: string }) {
               <button
                 type="button"
                 onClick={() => setAuthModalOpen(true)}
-                className="whitespace-nowrap rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm shadow-orange-500/20 transition hover:scale-[1.03] hover:brightness-110 active:scale-95 sm:px-3"
+                className="whitespace-nowrap rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm shadow-cyan-500/20 transition hover:scale-[1.03] hover:brightness-110 active:scale-95 sm:px-3"
               >
                 Sign In
               </button>

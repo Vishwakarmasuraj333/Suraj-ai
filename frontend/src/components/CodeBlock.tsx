@@ -28,7 +28,7 @@ export function CodeBlock({ language, value, isDark }: CodeBlockProps) {
     <div className="my-3 overflow-hidden rounded-xl border border-slate-200/80 bg-slate-950 shadow-sm dark:border-white/10">
       <div className="flex items-center justify-between border-b border-white/10 bg-slate-900/90 px-3.5 py-2 text-xs text-slate-300">
         <span className="inline-flex items-center gap-1.5 font-mono uppercase tracking-wider text-slate-400">
-          <Terminal className="h-3.5 w-3.5 text-orange-400" />
+          <Terminal className="h-3.5 w-3.5 text-cyan-400" />
           {language || "code"}
         </span>
         <button

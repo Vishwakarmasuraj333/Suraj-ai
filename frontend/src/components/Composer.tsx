@@ -89,10 +89,10 @@ export function Composer({
         }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
-        className={`relative rounded-2xl border bg-white/85 p-3 shadow-xl shadow-slate-900/5 backdrop-blur-2xl transition-all duration-200 dark:bg-[#111622]/90 dark:shadow-black/40 ${
+        className={`relative rounded-2xl border bg-white/85 p-3 shadow-xl shadow-slate-900/5 backdrop-blur-2xl transition-all duration-200 dark:bg-[#070b1a]/90 dark:shadow-black/40 ${
           isDragging
-            ? "scale-[1.01] border-orange-500 ring-2 ring-orange-500/30"
-            : "border-slate-200/90 hover:border-slate-300 focus-within:border-orange-500/50 focus-within:shadow-orange-500/10 dark:border-white/10 dark:hover:border-white/20"
+            ? "scale-[1.01] border-cyan-500 ring-2 ring-cyan-500/30"
+            : "border-slate-200/90 hover:border-cyan-400/35 focus-within:border-cyan-500/55 focus-within:shadow-cyan-500/10 dark:border-white/10 dark:hover:border-cyan-400/25"
         }`}
       >
         {/* Attached files strip */}
@@ -105,7 +105,7 @@ export function Composer({
                   key={att.id}
                   className="inline-flex items-center gap-2 rounded-xl border border-slate-200/80 bg-slate-100/80 px-2.5 py-1.5 text-xs text-slate-700 dark:border-white/10 dark:bg-white/[0.06] dark:text-slate-200"
                 >
-                  <Icon className="h-3.5 w-3.5 text-orange-500" />
+                  <Icon className="h-3.5 w-3.5 text-cyan-500" />
                   <span className="max-w-[160px] truncate font-medium">{att.filename}</span>
                   <span className="text-[10px] uppercase text-slate-400">{att.kind}</span>
                   <button
@@ -129,7 +129,7 @@ export function Composer({
           onKeyDown={handleKeyDown}
           rows={1}
           disabled={disabled}
-          placeholder="Message SURaj AI... (Ask in English or हिन्दी, paste code, or drop PDF / CSV / Images)"
+          placeholder="Message SURAJ AI... (Ask in English or हिन्दी, paste code, or drop PDF / CSV / Images)"
           className="max-h-44 w-full resize-none bg-transparent px-1 py-1 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 focus:outline-none dark:text-slate-100"
         />
 
@@ -153,12 +153,12 @@ export function Composer({
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading || isStreaming}
               title="Attach PDF, Image, CSV, Excel, JSON, or Code"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 px-2.5 py-1.5 text-xs font-medium text-slate-600 transition duration-150 hover:scale-[1.02] hover:border-orange-500/40 hover:bg-orange-500/5 hover:text-slate-900 active:scale-[0.98] disabled:opacity-50 dark:border-white/10 dark:text-slate-300 dark:hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 px-2.5 py-1.5 text-xs font-medium text-slate-600 transition duration-150 hover:scale-[1.02] hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:text-slate-900 active:scale-[0.98] disabled:opacity-50 dark:border-white/10 dark:text-slate-300 dark:hover:text-white"
             >
               {isUploading ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-orange-500" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-cyan-500" />
               ) : (
-                <Paperclip className="h-3.5 w-3.5 text-orange-500" />
+                <Paperclip className="h-3.5 w-3.5 text-cyan-500" />
               )}
               <span className="hidden sm:inline">Attach</span>
             </button>
@@ -167,9 +167,9 @@ export function Composer({
               type="button"
               onClick={onOpenImageStudio}
               title="Open AI Image Studio"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 px-2.5 py-1.5 text-xs font-medium text-slate-600 transition duration-150 hover:scale-[1.02] hover:border-orange-500/40 hover:bg-orange-500/5 hover:text-slate-900 active:scale-[0.98] dark:border-white/10 dark:text-slate-300 dark:hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 px-2.5 py-1.5 text-xs font-medium text-slate-600 transition duration-150 hover:scale-[1.02] hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:text-slate-900 active:scale-[0.98] dark:border-white/10 dark:text-slate-300 dark:hover:text-white"
             >
-              <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+              <Sparkles className="h-3.5 w-3.5 text-violet-500" />
               <span className="hidden sm:inline">Generate Image</span>
             </button>
           </div>
@@ -195,7 +195,7 @@ export function Composer({
                 onClick={onSend}
                 disabled={disabled || (!value.trim() && attachments.length === 0)}
                 aria-label="Send message"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/25 transition duration-150 hover:scale-[1.05] hover:brightness-110 active:scale-[0.96] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 text-white shadow-md shadow-cyan-500/25 transition duration-150 hover:scale-[1.05] hover:brightness-110 active:scale-[0.96] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
               >
                 <ArrowUp className="h-4 w-4" />
               </button>
@@ -204,7 +204,7 @@ export function Composer({
         </div>
       </div>
       <p className="mt-2 text-center text-[11px] text-slate-400">
-        SURaj AI can make mistakes. Verify important facts, code, and financial or medical guidance.
+        SURAJ AI can make mistakes. Verify important facts, code, and financial or medical guidance.
       </p>
     </div>
   );

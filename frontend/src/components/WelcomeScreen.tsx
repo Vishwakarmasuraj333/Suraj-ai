@@ -79,13 +79,13 @@ export function WelcomeScreen({
         transition={{ duration: 0.45 }}
         className="mb-6 flex flex-col items-center text-center"
       >
-        <div className="mb-4 rounded-2xl border border-orange-500/25 bg-white/80 p-3 shadow-xl shadow-orange-500/15 backdrop-blur-xl dark:bg-white/[0.04]">
+        <div className="mb-4 rounded-2xl border border-cyan-400/35 bg-white/85 p-3 shadow-xl shadow-cyan-500/15 backdrop-blur-xl dark:bg-[#070b1a]/80">
           <SurajLogo size={48} showWordmark={false} />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
           Welcome to{" "}
-          <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-            SURaj AI
+          <span className="neon-gradient-text">
+            SURAJ AI
           </span>
         </h1>
         <p className="mt-2.5 max-w-xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
@@ -118,9 +118,9 @@ export function WelcomeScreen({
               whileTap={{ scale: 0.985 }}
               transition={{ duration: 0.25, delay: 0.04 * idx }}
               onClick={() => onSelectPrompt(item.prompt)}
-              className="group flex flex-col items-start rounded-2xl border border-slate-200/80 bg-white/75 p-4 text-left shadow-sm backdrop-blur-xl transition-colors hover:border-orange-500/50 hover:bg-white hover:shadow-lg hover:shadow-orange-500/10 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-orange-400/40 dark:hover:bg-white/[0.07]"
+              className="group flex flex-col items-start rounded-2xl border border-slate-200/80 bg-white/80 p-4 text-left shadow-sm backdrop-blur-xl transition-colors hover:border-cyan-400/55 hover:bg-white hover:shadow-lg hover:shadow-cyan-500/15 dark:border-white/10 dark:bg-[#070b1a]/80 dark:hover:border-cyan-400/45 dark:hover:bg-[#0a1026]/90"
             >
-              <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500/10 text-orange-600 transition group-hover:scale-105 dark:text-orange-400">
+              <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-violet-500/15 text-cyan-600 ring-1 ring-cyan-500/25 transition group-hover:scale-105 dark:text-cyan-400">
                 <Icon className="h-4 w-4" />
               </div>
               <h3 className="text-sm font-semibold text-slate-900 dark:text-white">

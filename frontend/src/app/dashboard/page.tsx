@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { useAuth } from "@/components/AuthProvider";
 import { api, ApiError } from "@/lib/api";
@@ -111,9 +112,10 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="relative isolate min-h-screen flex flex-col">
+        <AnimatedBackground variant="global" fixed />
         <Navbar />
-        <main className="flex-1 flex items-center justify-center px-4 py-16">
+        <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-16">
           <div className="glass-card max-w-md rounded-3xl p-8 text-center">
             <UserIcon className="mx-auto h-10 w-10 text-cyan-400" />
             <h1 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
@@ -148,9 +150,10 @@ export default function DashboardPage() {
     : 0;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="global" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-10 space-y-8 sm:px-6 lg:px-8">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 py-10 space-y-8 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white sm:text-3xl">

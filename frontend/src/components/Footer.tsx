@@ -44,7 +44,7 @@ export function Footer() {
   const isHealthy = health?.status === "ok";
 
   return (
-    <footer className="relative isolate overflow-hidden border-t border-slate-200/80 bg-slate-50/80 text-slate-600 backdrop-blur-xl dark:border-white/10 dark:bg-[#030610]/85 dark:text-slate-400">
+    <footer className="relative isolate overflow-hidden border-t border-slate-200/80 bg-[#edf4ff]/85 text-slate-600 backdrop-blur-xl dark:border-white/10 dark:bg-[#030610]/85 dark:text-slate-400">
       <AnimatedBackground variant="footer" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-6">

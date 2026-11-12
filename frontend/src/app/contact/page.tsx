@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { CheckCircle2, Loader2, Mail, Send } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import { api, ApiError } from "@/lib/api";
 
 export default function ContactPage() {
@@ -40,11 +41,12 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="global" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
         <div className="mb-8 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/35 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-700 dark:text-cyan-400">
             <Mail className="h-3.5 w-3.5" /> Engineering & Enterprise Inquiries
           </span>
           <h1 className="mt-4 text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">

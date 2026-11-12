@@ -49,11 +49,11 @@ export function BlogListClient({
       <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/35 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-700 dark:border-cyan-400/30 dark:text-cyan-400">
               <BookOpen className="h-3.5 w-3.5" /> Engineering & AI Architecture Blog
             </span>
             <h1 className="mt-4 text-3xl font-extrabold text-slate-900 dark:text-white sm:text-5xl">
-              SURaj AI Insights
+              SURAJ AI Insights
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
               Deep dives on Knowledge RAG systems, persistent memory isolation, multi-provider SSE routing, and production backend security.
@@ -108,21 +108,21 @@ export function BlogListClient({
             className="glass-card group mb-10 block rounded-3xl p-6 transition hover:border-cyan-400/50 sm:p-8"
           >
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-              <span className="rounded-full bg-cyan-500/15 px-2.5 py-0.5 font-bold text-cyan-400">
+              <span className="rounded-full bg-cyan-500/15 px-2.5 py-0.5 font-bold text-cyan-700 dark:text-cyan-400">
                 Featured
               </span>
-              <span className="font-semibold text-violet-400">{featuredPost.category}</span>
+              <span className="font-semibold text-violet-700 dark:text-violet-400">{featuredPost.category}</span>
               <span className="inline-flex items-center gap-1">
                 <Clock className="h-3.5 w-3.5" /> {featuredPost.reading_time_minutes} min read
               </span>
             </div>
-            <h2 className="mt-3 text-2xl font-extrabold text-slate-900 group-hover:text-cyan-400 dark:text-white sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-extrabold text-slate-900 group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-400 sm:text-3xl">
               {featuredPost.title}
             </h2>
             <p className="mt-2.5 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">
               {featuredPost.excerpt}
             </p>
-            <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400">
+            <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-cyan-700 dark:text-cyan-400">
               Read full article <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </Link>
@@ -144,7 +144,7 @@ export function BlogListClient({
                   <div className="flex items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                     <Link
                       href={`/blog/category/${slugifyCategory(post.category)}`}
-                      className="font-semibold text-cyan-400 hover:underline"
+                      className="font-semibold text-cyan-700 dark:text-cyan-400 hover:underline"
                     >
                       {post.category}
                     </Link>
@@ -153,7 +153,7 @@ export function BlogListClient({
                     </span>
                   </div>
                   <Link href={`/blog/${post.slug}`}>
-                    <h3 className="mt-2.5 text-lg font-bold text-slate-900 hover:text-cyan-400 dark:text-white">
+                    <h3 className="mt-2.5 text-lg font-bold text-slate-900 hover:text-cyan-600 dark:text-white dark:hover:text-cyan-400">
                       {post.title}
                     </h3>
                   </Link>
@@ -178,7 +178,7 @@ export function BlogListClient({
                   <span className="text-slate-500 dark:text-slate-400">{post.author_name}</span>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1 font-semibold text-cyan-400 hover:underline"
+                    className="inline-flex items-center gap-1 font-semibold text-cyan-700 dark:text-cyan-400 hover:underline"
                   >
                     Read <ArrowRight className="h-3.5 w-3.5" />
                   </Link>

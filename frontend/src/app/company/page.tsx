@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 
 export const metadata: Metadata = {
   title: "Company & Security",
@@ -11,9 +12,10 @@ export const metadata: Metadata = {
 
 export default function CompanyPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="global" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-14 space-y-12 sm:px-6">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-4xl px-4 py-14 space-y-12 sm:px-6">
         <section id="about" className="glass-card rounded-3xl p-6 sm:p-8 space-y-3">
           <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">About SURAJ AI</h1>
           <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">

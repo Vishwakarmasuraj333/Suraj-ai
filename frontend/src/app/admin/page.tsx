@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import { useAuth } from "@/components/AuthProvider";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { api, ApiError } from "@/lib/api";
@@ -153,9 +154,10 @@ export default function AdminPage() {
 
   if (!user || user.role !== "admin") {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="relative isolate min-h-screen flex flex-col">
+        <AnimatedBackground variant="global" fixed />
         <Navbar />
-        <main className="flex-1 flex items-center justify-center px-4 py-16">
+        <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-16">
           <div className="glass-card max-w-md rounded-3xl p-8 text-center">
             <ShieldAlert className="mx-auto h-10 w-10 text-rose-400" />
             <h1 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
@@ -186,9 +188,10 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="global" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-400 ring-1 ring-violet-400/30">

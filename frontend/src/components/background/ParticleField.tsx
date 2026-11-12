@@ -16,16 +16,19 @@ interface DigitalParticle {
 
 interface ParticleFieldProps {
   paused?: boolean;
+  isDark?: boolean;
   deviceTier?: DeviceTier;
   density?: "full" | "medium" | "minimal";
   direction?: "up" | "diagonal" | "drift";
   pointerRef?: React.MutableRefObject<{ nx: number; ny: number }>;
 }
 
-const PARTICLE_COLORS = ["#22d3ee", "#3b82f6", "#8b5cf6", "#e879f9", "#38bdf8"];
+const DARK_PARTICLE_COLORS = ["#22d3ee", "#3b82f6", "#8b5cf6", "#e879f9", "#38bdf8"];
+const LIGHT_PARTICLE_COLORS = ["#0891b2", "#2563eb", "#7c3aed", "#c026d3", "#0284c7"];
 
 export const ParticleField = React.memo(function ParticleField({
   paused = false,
+  isDark = true,
   deviceTier = "desktop",
   density = "full",
   direction = "diagonal",
@@ -38,6 +41,8 @@ export const ParticleField = React.memo(function ParticleField({
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const palette = isDark ? DARK_PARTICLE_COLORS : LIGHT_PARTICLE_COLORS;
 
     let width = 0;
     let height = 0;
@@ -77,8 +82,8 @@ export const ParticleField = React.memo(function ParticleField({
           vy: -speedBase,
           size: 0.8 + depth * 0.9,
           depth,
-          alpha: 0.16 + depth * 0.2,
-          color: PARTICLE_COLORS[idx % PARTICLE_COLORS.length],
+          alpha: (isDark ? 0.16 : 0.28) + depth * 0.22,
+          color: palette[idx % palette.length],
         };
       });
     };
@@ -147,7 +152,7 @@ export const ParticleField = React.memo(function ParticleField({
       observer.disconnect();
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [paused, deviceTier, density, direction, pointerRef]);
+  }, [paused, isDark, deviceTier, density, direction, pointerRef]);
 
   return (
     <canvas

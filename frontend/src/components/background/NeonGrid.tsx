@@ -13,25 +13,25 @@ interface NeonGridProps {
 }
 
 const HORIZONTAL_TRACKS = [
-  { top: "14%", color: "via-cyan-400/75", glow: "shadow-[0_0_12px_rgba(34,211,238,0.65)]", duration: "10s", delay: "0s", width: "42%" },
-  { top: "31%", color: "via-blue-500/70", glow: "shadow-[0_0_10px_rgba(59,130,246,0.55)]", duration: "13s", delay: "2.4s", width: "52%" },
-  { top: "52%", color: "via-violet-400/75", glow: "shadow-[0_0_12px_rgba(139,92,246,0.6)]", duration: "11.5s", delay: "5s", width: "38%" },
-  { top: "68%", color: "via-cyan-300/70", glow: "shadow-[0_0_10px_rgba(34,211,238,0.5)]", duration: "14.5s", delay: "1.2s", width: "46%" },
-  { top: "84%", color: "via-fuchsia-400/65", glow: "shadow-[0_0_12px_rgba(217,70,239,0.5)]", duration: "12.5s", delay: "3.8s", width: "36%" },
+  { top: "14%", color: "via-cyan-600/80 dark:via-cyan-400/75", glow: "shadow-[0_0_12px_rgba(8,145,178,0.55)] dark:shadow-[0_0_12px_rgba(34,211,238,0.65)]", duration: "10s", delay: "0s", width: "42%" },
+  { top: "31%", color: "via-blue-600/75 dark:via-blue-500/70", glow: "shadow-[0_0_10px_rgba(37,99,235,0.45)] dark:shadow-[0_0_10px_rgba(59,130,246,0.55)]", duration: "13s", delay: "2.4s", width: "52%" },
+  { top: "52%", color: "via-violet-600/80 dark:via-violet-400/75", glow: "shadow-[0_0_12px_rgba(124,58,237,0.5)] dark:shadow-[0_0_12px_rgba(139,92,246,0.6)]", duration: "11.5s", delay: "5s", width: "38%" },
+  { top: "68%", color: "via-cyan-600/75 dark:via-cyan-300/70", glow: "shadow-[0_0_10px_rgba(8,145,178,0.45)] dark:shadow-[0_0_10px_rgba(34,211,238,0.5)]", duration: "14.5s", delay: "1.2s", width: "46%" },
+  { top: "84%", color: "via-fuchsia-600/70 dark:via-fuchsia-400/65", glow: "shadow-[0_0_12px_rgba(192,38,211,0.45)] dark:shadow-[0_0_12px_rgba(217,70,239,0.5)]", duration: "12.5s", delay: "3.8s", width: "36%" },
 ];
 
 const VERTICAL_TRACKS = [
-  { left: "12%", color: "via-cyan-400/70", duration: "11s", delay: "0.8s", height: "38%" },
-  { left: "34%", color: "via-violet-400/65", duration: "14s", delay: "3.2s", height: "44%" },
-  { left: "64%", color: "via-blue-400/70", duration: "12.2s", delay: "1.6s", height: "36%" },
-  { left: "86%", color: "via-fuchsia-400/65", duration: "15s", delay: "4.6s", height: "42%" },
+  { left: "12%", color: "via-cyan-600/75 dark:via-cyan-400/70", duration: "11s", delay: "0.8s", height: "38%" },
+  { left: "34%", color: "via-violet-600/70 dark:via-violet-400/65", duration: "14s", delay: "3.2s", height: "44%" },
+  { left: "64%", color: "via-blue-600/75 dark:via-blue-400/70", duration: "12.2s", delay: "1.6s", height: "36%" },
+  { left: "86%", color: "via-fuchsia-600/70 dark:via-fuchsia-400/65", duration: "15s", delay: "4.6s", height: "42%" },
 ];
 
 const INTERSECTION_NODES = [
-  { top: "14%", left: "34%", color: "bg-cyan-300 shadow-[0_0_14px_#22d3ee]" },
-  { top: "31%", left: "64%", color: "bg-blue-400 shadow-[0_0_14px_#60a5fa]" },
-  { top: "52%", left: "12%", color: "bg-violet-400 shadow-[0_0_14px_#a78bfa]" },
-  { top: "68%", left: "86%", color: "bg-fuchsia-400 shadow-[0_0_14px_#e879f9]" },
+  { top: "14%", left: "34%", color: "bg-cyan-600 dark:bg-cyan-300 shadow-[0_0_12px_#0891b2] dark:shadow-[0_0_14px_#22d3ee]" },
+  { top: "31%", left: "64%", color: "bg-blue-600 dark:bg-blue-400 shadow-[0_0_12px_#2563eb] dark:shadow-[0_0_14px_#60a5fa]" },
+  { top: "52%", left: "12%", color: "bg-violet-600 dark:bg-violet-400 shadow-[0_0_12px_#7c3aed] dark:shadow-[0_0_14px_#a78bfa]" },
+  { top: "68%", left: "86%", color: "bg-fuchsia-600 dark:bg-fuchsia-400 shadow-[0_0_12px_#c026d3] dark:shadow-[0_0_14px_#e879f9]" },
 ];
 
 export const NeonGrid = React.memo(function NeonGrid({
@@ -43,7 +43,7 @@ export const NeonGrid = React.memo(function NeonGrid({
   const isMobile = deviceTier === "mobile";
   const hTracks = isMobile ? HORIZONTAL_TRACKS.slice(0, 3) : HORIZONTAL_TRACKS;
   const vTracks = isMobile ? VERTICAL_TRACKS.slice(0, 2) : VERTICAL_TRACKS;
-  const baseLineOpacity = variant === "subtle" ? "opacity-20 dark:opacity-28" : "opacity-40 dark:opacity-55";
+  const baseLineOpacity = variant === "subtle" ? "opacity-35 dark:opacity-28" : "opacity-65 dark:opacity-55";
 
   return (
     <div
@@ -52,10 +52,18 @@ export const NeonGrid = React.memo(function NeonGrid({
     >
       {/* Subtle architectural micro-grid overlay */}
       <div
-        className={`absolute inset-0 ${variant === "subtle" ? "opacity-20 dark:opacity-25" : "opacity-35 dark:opacity-45"}`}
+        className={`hidden dark:block absolute inset-0 ${variant === "subtle" ? "opacity-25" : "opacity-45"}`}
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(34,211,238,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(139,92,246,0.06) 1px, transparent 1px)",
+          backgroundSize: isMobile ? "72px 72px" : "64px 64px",
+        }}
+      />
+      <div
+        className={`dark:hidden absolute inset-0 ${variant === "subtle" ? "opacity-30" : "opacity-55"}`}
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(8,145,178,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(109,40,217,0.11) 1px, transparent 1px)",
           backgroundSize: isMobile ? "72px 72px" : "64px 64px",
         }}
       />
@@ -65,7 +73,7 @@ export const NeonGrid = React.memo(function NeonGrid({
         {hTracks.map((track, idx) => (
           <div key={track.top} className="absolute inset-x-0" style={{ top: track.top }}>
             {/* Faint guide rail */}
-            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-cyan-500/12 to-transparent dark:via-cyan-400/16" />
+            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent dark:via-cyan-400/20" />
             {/* Moving neon energy trace + leading packet node */}
             <div
               className="suraj-motion-el relative -mt-[1px] flex items-center"
@@ -89,7 +97,7 @@ export const NeonGrid = React.memo(function NeonGrid({
         {/* Moving Vertical Neon Lines */}
         {vTracks.map((track, idx) => (
           <div key={track.left} className="absolute inset-y-0" style={{ left: track.left }}>
-            <div className="h-full w-[1px] bg-gradient-to-b from-transparent via-violet-500/10 to-transparent dark:via-violet-400/16" />
+            <div className="h-full w-[1px] bg-gradient-to-b from-transparent via-violet-500/10 to-transparent dark:via-violet-400/20" />
             <div
               className="suraj-motion-el relative -ml-[1px] flex flex-col items-center"
               style={{

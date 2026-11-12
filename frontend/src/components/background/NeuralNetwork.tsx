@@ -25,6 +25,7 @@ export type NeuralVariant = "hero" | "features" | "rag" | "memory" | "architectu
 interface NeuralNetworkProps {
   variant?: NeuralVariant;
   paused?: boolean;
+  isDark?: boolean;
   deviceTier?: DeviceTier;
   pointerRef?: React.MutableRefObject<{ nx: number; ny: number }>;
 }
@@ -32,6 +33,7 @@ interface NeuralNetworkProps {
 export const NeuralNetwork = React.memo(function NeuralNetwork({
   variant = "hero",
   paused = false,
+  isDark = true,
   deviceTier = "desktop",
   pointerRef,
 }: NeuralNetworkProps) {
@@ -64,12 +66,17 @@ export const NeuralNetwork = React.memo(function NeuralNetwork({
     const pulses: SignalPulse[] = [];
 
     const seed = () => {
-      const palette =
-        variant === "memory"
+      const palette = isDark
+        ? variant === "memory"
           ? ["#a78bfa", "#c084fc", "#22d3ee"]
           : variant === "rag"
             ? ["#22d3ee", "#38bdf8", "#8b5cf6"]
-            : ["#22d3ee", "#3b82f6", "#8b5cf6", "#e879f9"];
+            : ["#22d3ee", "#3b82f6", "#8b5cf6", "#e879f9"]
+        : variant === "memory"
+          ? ["#7c3aed", "#9333ea", "#0891b2"]
+          : variant === "rag"
+            ? ["#0891b2", "#2563eb", "#7c3aed"]
+            : ["#0891b2", "#2563eb", "#7c3aed", "#c026d3"];
 
       nodes = Array.from({ length: nodeCount }, (_, idx) => {
         // Keep neural nodes gently biased toward peripheral zones so typography remains razor-clean
@@ -96,7 +103,7 @@ export const NeuralNetwork = React.memo(function NeuralNetwork({
           toIdx: (i + 3) % Math.max(1, nodeCount),
           progress: Math.random(),
           speed: 0.004 + Math.random() * 0.005,
-          color: i % 2 === 0 ? "#22d3ee" : "#e879f9",
+          color: i % 2 === 0 ? (isDark ? "#22d3ee" : "#0891b2") : (isDark ? "#e879f9" : "#c026d3"),
         });
       }
     };
@@ -147,10 +154,10 @@ export const NeuralNetwork = React.memo(function NeuralNetwork({
         const a = nodes[i];
         const b = nodes[j];
         const grad = ctx.createLinearGradient(a.x + px, a.y + py, b.x + px, b.y + py);
-        grad.addColorStop(0, "rgba(34, 211, 238, 0.7)");
-        grad.addColorStop(1, "rgba(139, 92, 246, 0.7)");
+        grad.addColorStop(0, isDark ? "rgba(34, 211, 238, 0.7)" : "rgba(8, 145, 178, 0.85)");
+        grad.addColorStop(1, isDark ? "rgba(139, 92, 246, 0.7)" : "rgba(109, 40, 217, 0.85)");
         ctx.save();
-        ctx.globalAlpha = alpha;
+        ctx.globalAlpha = isDark ? alpha : Math.min(0.45, alpha * 1.45);
         ctx.strokeStyle = grad;
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -220,7 +227,7 @@ export const NeuralNetwork = React.memo(function NeuralNetwork({
       observer.disconnect();
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [variant, paused, deviceTier, pointerRef]);
+  }, [variant, paused, isDark, deviceTier, pointerRef]);
 
   return (
     <canvas

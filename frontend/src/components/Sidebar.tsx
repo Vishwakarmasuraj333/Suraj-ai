@@ -95,7 +95,7 @@ export const Sidebar = React.memo(function Sidebar({
         }}
         className={`group relative flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2.5 text-sm transition-all ${
           isActive
-            ? "bg-gradient-to-r from-orange-500/15 to-amber-500/10 font-medium text-slate-900 ring-1 ring-orange-500/30 dark:text-white"
+            ? "bg-gradient-to-r from-cyan-500/15 via-blue-500/10 to-violet-500/15 font-medium text-slate-900 ring-1 ring-cyan-400/35 dark:text-white"
             : "text-slate-600 hover:bg-slate-200/60 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/[0.06] dark:hover:text-white"
         }`}
       >
@@ -109,7 +109,7 @@ export const Sidebar = React.memo(function Sidebar({
                 if (e.key === "Enter") commitEdit(conv.id);
                 if (e.key === "Escape") setEditingId(null);
               }}
-              className="w-full rounded-md border border-orange-500/40 bg-white px-2 py-1 text-xs text-slate-900 outline-none dark:bg-slate-900 dark:text-white"
+              className="w-full rounded-md border border-cyan-400/45 bg-white px-2 py-1 text-xs text-slate-900 outline-none dark:bg-slate-900 dark:text-white"
             />
             <button
               type="button"
@@ -147,7 +147,7 @@ export const Sidebar = React.memo(function Sidebar({
                   onTogglePin(conv.id, !conv.is_pinned);
                 }}
                 className={`rounded-md p-1 transition hover:bg-black/5 dark:hover:bg-white/10 ${
-                  conv.is_pinned ? "text-orange-500" : "text-slate-400"
+                  conv.is_pinned ? "text-cyan-500" : "text-slate-400"
                 }`}
               >
                 <Pin className="h-3.5 w-3.5" />
@@ -181,7 +181,7 @@ export const Sidebar = React.memo(function Sidebar({
   };
 
   const sidebarContent = (
-    <div className="flex h-full w-72 flex-col border-r border-slate-200/80 bg-white/75 backdrop-blur-2xl dark:border-white/10 dark:bg-[#0b0f17]/85">
+    <div className="flex h-full w-72 flex-col border-r border-slate-200/80 bg-white/75 backdrop-blur-2xl dark:border-white/10 dark:bg-[#05091a]/85">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-4">
         <SurajLogo size={34} />
@@ -203,7 +203,7 @@ export const Sidebar = React.memo(function Sidebar({
             onNewChat();
             onCloseMobile();
           }}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition hover:brightness-105 active:scale-[0.99]"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-md shadow-cyan-500/20 transition hover:brightness-110 active:scale-[0.99]"
         >
           <MessageSquarePlus className="h-4 w-4" />
           New Chat
@@ -215,11 +215,11 @@ export const Sidebar = React.memo(function Sidebar({
             onOpenImageStudio();
             onCloseMobile();
           }}
-          className="flex w-full items-center gap-2.5 rounded-xl border border-slate-200/80 bg-white/60 px-3 py-2 text-xs font-medium text-slate-700 transition hover:border-orange-500/40 hover:bg-orange-50/50 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-200 dark:hover:bg-white/[0.08]"
+          className="flex w-full items-center gap-2.5 rounded-xl border border-slate-200/80 bg-white/60 px-3 py-2 text-xs font-medium text-slate-700 transition hover:border-cyan-400/50 hover:bg-cyan-50/50 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-200 dark:hover:bg-white/[0.08]"
         >
-          <ImageIcon className="h-4 w-4 text-orange-500" />
+          <ImageIcon className="h-4 w-4 text-cyan-500" />
           <span>Image Studio</span>
-          <span className="ml-auto rounded-full bg-orange-500/15 px-2 py-0.5 text-[10px] font-semibold text-orange-600 dark:text-orange-300">
+          <span className="ml-auto rounded-full bg-cyan-500/15 px-2 py-0.5 text-[10px] font-semibold text-cyan-600 dark:text-cyan-300">
             API
           </span>
         </button>
@@ -233,7 +233,7 @@ export const Sidebar = React.memo(function Sidebar({
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search conversations..."
             aria-label="Search conversation history"
-            className="w-full rounded-xl border border-slate-200/80 bg-slate-100/70 py-2 pl-8 pr-3 text-xs text-slate-800 placeholder:text-slate-400 focus:border-orange-500/50 focus:bg-white focus:outline-none dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-100 dark:focus:bg-slate-900"
+            className="w-full rounded-xl border border-slate-200/80 bg-slate-100/70 py-2 pl-8 pr-3 text-xs text-slate-800 placeholder:text-slate-400 focus:border-cyan-400/60 focus:bg-white focus:outline-none dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-100 dark:focus:bg-[#070b1a]"
           />
         </div>
       </div>
@@ -271,7 +271,7 @@ export const Sidebar = React.memo(function Sidebar({
       <div className="border-t border-slate-200/80 p-3 dark:border-white/10">
         {user ? (
           <div className="flex items-center gap-2.5 rounded-xl bg-slate-100/80 p-2 dark:bg-white/[0.04]">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-rose-500 text-xs font-bold text-white">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 via-blue-600 to-violet-600 text-xs font-bold text-white">
               {user.full_name
                 .split(" ")
                 .map((p) => p[0])
@@ -300,7 +300,7 @@ export const Sidebar = React.memo(function Sidebar({
           <button
             type="button"
             onClick={onOpenAuth}
-            className="w-full rounded-xl border border-orange-500/40 bg-orange-500/10 py-2.5 text-xs font-semibold text-orange-600 transition hover:bg-orange-500/20 dark:text-orange-300"
+            className="w-full rounded-xl border border-cyan-400/40 bg-cyan-500/10 py-2.5 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-500/20 dark:text-cyan-300"
           >
             Sign In / Create Account
           </button>

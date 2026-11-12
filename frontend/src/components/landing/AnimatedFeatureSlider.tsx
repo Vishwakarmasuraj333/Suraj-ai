@@ -47,7 +47,7 @@ const SLIDES: FeatureSlide[] = [
     ctaLabel: "Launch Streaming Chat",
     ctaHref: "/chat",
     accentGradient: "from-cyan-500 via-blue-500 to-violet-600",
-    badgeTone: "border-cyan-400/35 bg-cyan-500/12 text-cyan-300",
+    badgeTone: "border-cyan-500/40 bg-cyan-500/15 text-cyan-700 dark:border-cyan-400/35 dark:text-cyan-300",
     icon: Cpu,
   },
   {
@@ -65,7 +65,7 @@ const SLIDES: FeatureSlide[] = [
     ctaLabel: "Explore Document RAG",
     ctaHref: "/chat?tool=rag",
     accentGradient: "from-sky-400 via-cyan-500 to-emerald-500",
-    badgeTone: "border-sky-400/35 bg-sky-500/12 text-sky-300",
+    badgeTone: "border-sky-500/40 bg-sky-500/15 text-sky-700 dark:border-sky-400/35 dark:text-sky-300",
     icon: FileSearch,
   },
   {
@@ -83,7 +83,7 @@ const SLIDES: FeatureSlide[] = [
     ctaLabel: "Configure AI Memory",
     ctaHref: "/chat?tool=memory",
     accentGradient: "from-violet-500 via-purple-500 to-fuchsia-500",
-    badgeTone: "border-violet-400/35 bg-violet-500/12 text-violet-300",
+    badgeTone: "border-violet-500/40 bg-violet-500/15 text-violet-700 dark:border-violet-400/35 dark:text-violet-300",
     icon: Brain,
   },
   {
@@ -101,7 +101,7 @@ const SLIDES: FeatureSlide[] = [
     ctaLabel: "Open Visual Studio",
     ctaHref: "/chat?tool=chart",
     accentGradient: "from-blue-500 via-indigo-500 to-fuchsia-500",
-    badgeTone: "border-indigo-400/35 bg-indigo-500/12 text-indigo-300",
+    badgeTone: "border-indigo-500/40 bg-indigo-500/15 text-indigo-700 dark:border-indigo-400/35 dark:text-indigo-300",
     icon: Code2,
   },
   {
@@ -119,7 +119,7 @@ const SLIDES: FeatureSlide[] = [
     ctaLabel: "Inspect Architecture",
     ctaHref: "/#architecture",
     accentGradient: "from-fuchsia-500 via-violet-500 to-cyan-500",
-    badgeTone: "border-fuchsia-400/35 bg-fuchsia-500/12 text-fuchsia-300",
+    badgeTone: "border-fuchsia-500/40 bg-fuchsia-500/15 text-fuchsia-700 dark:border-fuchsia-400/35 dark:text-fuchsia-300",
     icon: ShieldCheck,
   },
 ];
