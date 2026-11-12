@@ -1,0 +1,151 @@
+import React from "react";
+import "@testing-library/jest-dom/vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { AuthModal } from "@/components/AuthModal";
+import { ChartBlock } from "@/components/ChartBlock";
+import { Composer } from "@/components/Composer";
+import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { WelcomeScreen } from "@/components/WelcomeScreen";
+
+describe("SURaj AI Frontend Components", () => {
+  it("renders WelcomeScreen with SURaj AI branding and unconfigured API notice", () => {
+    const onSelectPrompt = vi.fn();
+    const onOpenSettings = vi.fn();
+    render(
+      <WelcomeScreen
+        onSelectPrompt={onSelectPrompt}
+        onOpenSettings={onOpenSettings}
+        capabilities={{
+          database_type: "sqlite",
+          database_connected: true,
+          llm_providers: [
+            {
+              id: "openai",
+              name: "OpenAI",
+              configured: false,
+              models: ["gpt-4o-mini"],
+              supports_vision: true,
+              supports_streaming: true,
+              required_env_var: "OPENAI_API_KEY",
+            },
+          ],
+          image_generation_configured: false,
+          image_providers: [],
+          file_processing: {},
+          rate_limit_rpm: 30,
+          rate_limit_daily_tokens: 250000,
+        }}
+      />
+    );
+    expect(screen.getByText(/SURaj/i)).toBeInTheDocument();
+    const keyBtn = screen.getByRole("button", { name: /LLM API Key Required/i });
+    fireEvent.click(keyBtn);
+    expect(onOpenSettings).toHaveBeenCalledTimes(1);
+  });
+
+  it("handles Composer send, attachment removal, and Stop button", () => {
+    const onSend = vi.fn();
+    const onStop = vi.fn();
+    const onRemove = vi.fn();
+    const { rerender } = render(
+      <Composer
+        value="Hello SURaj AI"
+        onChange={vi.fn()}
+        onSend={onSend}
+        onStop={onStop}
+        onUploadFiles={vi.fn(async () => {})}
+        attachments={[
+          {
+            id: "att-1",
+            filename: "report.pdf",
+            content_type: "application/pdf",
+            file_size: 1024,
+            kind: "pdf",
+            analysis_json: {},
+            created_at: new Date().toISOString(),
+          },
+        ]}
+        onRemoveAttachment={onRemove}
+        isStreaming={false}
+        isUploading={false}
+        onOpenImageStudio={vi.fn()}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText("Send message"));
+    expect(onSend).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByLabelText("Remove report.pdf"));
+    expect(onRemove).toHaveBeenCalledWith("att-1");
+
+    rerender(
+      <Composer
+        value=""
+        onChange={vi.fn()}
+        onSend={onSend}
+        onStop={onStop}
+        onUploadFiles={vi.fn(async () => {})}
+        attachments={[]}
+        onRemoveAttachment={onRemove}
+        isStreaming={true}
+        isUploading={false}
+        onOpenImageStudio={vi.fn()}
+      />
+    );
+    fireEvent.click(screen.getByLabelText("Stop generation"));
+    expect(onStop).toHaveBeenCalledTimes(1);
+  });
+
+  it("normalizes unknown chart types to bar and switches chart tabs", () => {
+    render(
+      <ChartBlock
+        payload={{
+          // @ts-expect-error testing invalid runtime type fallback
+          type: "scatter",
+          title: "Sales Data",
+          xKey: "quarter",
+          series: ["revenue"],
+          data: [
+            { quarter: "Q1", revenue: 100 },
+            { quarter: "Q2", revenue: 200 },
+          ],
+        }}
+      />
+    );
+    expect(screen.getByText("Sales Data")).toBeInTheDocument();
+    const barTab = screen.getByRole("button", { name: "bar" });
+    expect(barTab.className).toContain("font-semibold");
+    fireEvent.click(screen.getByRole("button", { name: "line" }));
+    expect(screen.getByRole("button", { name: "line" }).className).toContain("font-semibold");
+  });
+
+  it("renders Markdown, Hindi text, tables, and strips unsafe XSS scripts", () => {
+    const md = [
+      "नमस्ते SURaj AI",
+      "",
+      "| Col | Val |",
+      "|---|---|",
+      "| A | 10 |",
+      "",
+      "<script>alert('xss')</script>",
+      "",
+      "[bad](javascript:alert(1))",
+    ].join("\n");
+
+    const { container } = render(<MarkdownRenderer content={md} isDark={true} />);
+    expect(screen.getByText(/नमस्ते SURaj AI/)).toBeInTheDocument();
+    expect(container.querySelector("table")).toBeInTheDocument();
+    expect(container.querySelector("script")).not.toBeInTheDocument();
+    const link = screen.getByText("bad");
+    expect(link.getAttribute("href") || "").not.toContain("javascript:");
+  });
+
+  it("toggles AuthModal between Sign In and Create Account", () => {
+    render(<AuthModal isOpen={true} onClose={vi.fn()} onAuthenticated={vi.fn()} />);
+    expect(screen.getByText("Sign in to SURaj AI")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Create Account" }));
+    expect(screen.getByText("Create your SURaj AI account")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Suraj Sharma")).toBeInTheDocument();
+  });
+});

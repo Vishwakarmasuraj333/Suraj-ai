@@ -1,0 +1,147 @@
+@import "katex/dist/katex.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #fafaf9;
+  --bg-elevated: rgba(255, 255, 255, 0.78);
+  --bg-glass: rgba(255, 255, 255, 0.72);
+  --border-subtle: rgba(15, 23, 42, 0.09);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent: #ea580c;
+  --accent-soft: rgba(234, 88, 12, 0.1);
+}
+
+.dark {
+  --bg-primary: #090b10;
+  --bg-elevated: rgba(17, 21, 31, 0.78);
+  --bg-glass: rgba(15, 19, 28, 0.74);
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent: #fb923c;
+  --accent-soft: rgba(251, 146, 60, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom sleek scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+/* Markdown & prose refinements */
+.suraj-prose {
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.suraj-prose h1,
+.suraj-prose h2,
+.suraj-prose h3 {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.suraj-prose h1 { font-size: 1.35rem; }
+.suraj-prose h2 { font-size: 1.15rem; }
+.suraj-prose h3 { font-size: 1.02rem; }
+
+.suraj-prose p {
+  margin-bottom: 0.85em;
+}
+
+.suraj-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.suraj-prose ul,
+.suraj-prose ol {
+  margin: 0.6em 0 0.9em 1.35em;
+}
+
+.suraj-prose ul {
+  list-style-type: disc;
+}
+
+.suraj-prose ol {
+  list-style-type: decimal;
+}
+
+.suraj-prose li {
+  margin-bottom: 0.3em;
+}
+
+.suraj-prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 0.4rem 0.9rem;
+  margin: 0.8rem 0;
+  background: var(--accent-soft);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.suraj-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-subtle);
+}
+
+.suraj-prose th,
+.suraj-prose td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+}
+
+.suraj-prose th {
+  font-weight: 600;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.suraj-prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora-slow,
+  .animate-pulse-soft {
+    animation: none !important;
+  }
+}
+
