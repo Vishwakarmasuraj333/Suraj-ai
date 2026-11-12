@@ -71,7 +71,7 @@ export function ImageStudioModal({
             initial={{ opacity: 0, scale: 0.96, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 10 }}
-            className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200/80 bg-white/95 p-6 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-[#0e131f]/95"
+            className="relative z-10 max-h-[92dvh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-slate-200/80 bg-white/95 p-4 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-[#0e131f]/95 sm:p-6"
           >
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -117,7 +117,7 @@ export function ImageStudioModal({
                 minLength={3}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Describe the image you want to create (e.g., 'Architectural render of a sunlit solar-powered glass library overlooking misty Himalayan mountains, photorealistic')"
+                placeholder="Describe the image you want to generate (style, lighting, subject, and details)..."
                 className="w-full rounded-2xl border border-slate-200 bg-white p-3.5 text-sm text-slate-900 outline-none focus:border-orange-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
               />
 

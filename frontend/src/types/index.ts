@@ -3,6 +3,8 @@ export interface User {
   email: string;
   full_name: string;
   avatar_url?: string | null;
+  is_email_verified?: boolean;
+  is_active?: boolean;
   role: string;
   created_at: string;
 }
@@ -11,6 +13,7 @@ export interface AuthResponse {
   access_token: string;
   token_type: string;
   user: User;
+  email_verification_status?: string | null;
 }
 
 export interface AttachmentSummary {
@@ -93,6 +96,11 @@ export interface Capabilities {
   file_processing: Record<string, boolean>;
   rate_limit_rpm: number;
   rate_limit_daily_tokens: number;
+  smtp_configured?: boolean;
+  stripe_configured?: boolean;
+  razorpay_configured?: boolean;
+  memory_enabled?: boolean;
+  rag_enabled?: boolean;
 }
 
 export interface UsageRecord {
@@ -136,5 +144,122 @@ export interface ChartPayload {
   xKey?: string;
   series?: string[];
   data: Array<Record<string, string | number>>;
+}
+
+export interface UserMemory {
+  id: string;
+  title: string;
+  content: string;
+  category: "preference" | "project" | "fact" | "instruction";
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  cover_image_url?: string | null;
+  category: string;
+  tags: string[];
+  author_name: string;
+  reading_time_minutes: number;
+  status: "draft" | "published";
+  is_featured: boolean;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  published_at?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogDetailResponse {
+  post: BlogPost;
+  related: BlogPost[];
+  previous_post?: BlogPost | null;
+  next_post?: BlogPost | null;
+}
+
+export interface PlanTierInfo {
+  id: "free" | "pro" | "premium" | "enterprise";
+  name: string;
+  tagline: string;
+  monthly_price_usd: number | null;
+  yearly_price_usd: number | null;
+  daily_token_limit: number;
+  rpm_limit: number;
+  features: string[];
+}
+
+export interface BillingHistoryItem {
+  id: string;
+  plan_tier: string;
+  amount_cents: number;
+  currency: string;
+  status: string;
+  provider?: string | null;
+  description: string;
+  created_at: string;
+}
+
+export interface BillingStatusResponse {
+  subscription: {
+    plan_tier: string;
+    billing_cycle: string;
+    status: string;
+    provider?: string | null;
+    current_period_end?: string | null;
+    updated_at: string;
+  };
+  history: BillingHistoryItem[];
+  stripe_configured: boolean;
+  razorpay_configured: boolean;
+}
+
+export interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: string;
+  created_at: string;
+}
+
+export interface AdminOverview {
+  admin_email: string;
+  counts: {
+    users: number;
+    conversations: number;
+    messages: number;
+    blog_posts: number;
+    published_posts: number;
+    contact_submissions: number;
+    ai_requests: number;
+    total_tokens: number;
+    total_images: number;
+  };
+  subscriptions_by_tier: Record<string, number>;
+  integrations: {
+    llm_providers: ProviderCapability[];
+    image_providers: ImageProviderCapability[];
+    smtp_configured: boolean;
+    stripe_configured: boolean;
+    razorpay_configured: boolean;
+    redis_connected: boolean;
+    redis_status: string;
+  };
+  metrics: Record<string, unknown>;
+}
+
+export interface AdminLogEntry {
+  timestamp: string;
+  level: string;
+  logger: string;
+  request_id?: string;
+  message: string;
 }
 

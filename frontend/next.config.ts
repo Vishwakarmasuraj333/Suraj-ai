@@ -9,7 +9,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  ...(process.env.NEXT_STANDALONE === "true" ? { output: "standalone" } : {}),
   images: {
     unoptimized: true,
   },

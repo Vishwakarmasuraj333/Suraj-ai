@@ -1,47 +1,96 @@
 "use client";
 
-import React from "react";
+import React, { useId } from "react";
 
 interface SurajLogoProps {
   size?: number;
+  iconOnly?: boolean;
   showWordmark?: boolean;
+  showSub?: boolean;
   className?: string;
 }
 
-export function SurajLogo({ size = 32, showWordmark = true, className = "" }: SurajLogoProps) {
+export function SurajLogo({
+  size = 38,
+  iconOnly = false,
+  showWordmark = true,
+  showSub = false,
+  className = "",
+}: SurajLogoProps) {
+  const hideWordmark = iconOnly || showWordmark === false;
+  const uid = useId().replace(/:/g, "");
+  const ringGradId = `suraj-ring-${uid}`;
+  const coreGradId = `suraj-core-${uid}`;
+
   return (
     <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
       <div
-        className="relative flex items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-600 shadow-lg shadow-orange-500/25 ring-1 ring-white/20"
+        className="relative flex shrink-0 items-center justify-center rounded-xl bg-slate-950/90 p-1 shadow-[0_0_24px_-6px_rgba(34,211,238,0.55)] ring-1 ring-cyan-400/30"
         style={{ width: size, height: size }}
       >
-        <svg
-          width={Math.round(size * 0.64)}
-          height={Math.round(size * 0.64)}
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="4.2" fill="white" />
-          <path
-            d="M12 2.2V5.2M12 18.8V21.8M2.2 12H5.2M18.8 12H21.8M5.1 5.1L7.2 7.2M16.8 16.8L18.9 18.9M18.9 5.1L16.8 7.2M7.2 16.8L5.1 18.9"
-            stroke="white"
+        <svg viewBox="0 0 48 48" fill="none" className="h-full w-full" aria-hidden="true">
+          <defs>
+            <linearGradient id={ringGradId} x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#22D3EE" />
+              <stop offset="38%" stopColor="#3B82F6" />
+              <stop offset="72%" stopColor="#8B5CF6" />
+              <stop offset="100%" stopColor="#E879F9" />
+            </linearGradient>
+            <radialGradient id={coreGradId} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#E0F2FE" />
+              <stop offset="55%" stopColor="#06B6D4" />
+              <stop offset="100%" stopColor="#7C3AED" />
+            </radialGradient>
+          </defs>
+          <circle
+            cx="24"
+            cy="24"
+            r="20"
+            stroke={`url(#${ringGradId})`}
             strokeWidth="2"
-            strokeLinecap="round"
+            strokeDasharray="7 4"
+            opacity="0.9"
           />
+          <polygon
+            points="24,7.5 38.2,15.7 38.2,32.3 24,40.5 9.8,32.3 9.8,15.7"
+            stroke={`url(#${ringGradId})`}
+            strokeWidth="2"
+            fill="rgba(6, 182, 212, 0.08)"
+          />
+          <path
+            d="M24 7.5V16M38.2 15.7L30.8 20M38.2 32.3L30.8 28M24 40.5V32M9.8 32.3L17.2 28M9.8 15.7L17.2 20"
+            stroke={`url(#${ringGradId})`}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            opacity="0.75"
+          />
+          <circle cx="24" cy="24" r="6" fill={`url(#${coreGradId})`} />
+          <circle cx="24" cy="7.5" r="2" fill="#22D3EE" />
+          <circle cx="38.2" cy="15.7" r="2" fill="#3B82F6" />
+          <circle cx="38.2" cy="32.3" r="2" fill="#8B5CF6" />
+          <circle cx="24" cy="40.5" r="2" fill="#E879F9" />
+          <circle cx="9.8" cy="32.3" r="2" fill="#8B5CF6" />
+          <circle cx="9.8" cy="15.7" r="2" fill="#22D3EE" />
         </svg>
       </div>
-      {showWordmark && (
+
+      {!hideWordmark && (
         <div className="flex flex-col leading-none">
-          <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
-            SURaj <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">AI</span>
-          </span>
-          <span className="text-[10px] font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400">
-            Multimodal Studio
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[17px] font-bold tracking-tight text-slate-900 dark:text-white">
+              SURaj
+            </span>
+            <span className="rounded-md bg-gradient-to-r from-cyan-500 via-blue-600 to-fuchsia-500 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">
+              AI
+            </span>
+          </div>
+          {showSub && (
+            <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+              Neural SaaS Platform
+            </span>
+          )}
         </div>
       )}
     </div>
   );
 }
-

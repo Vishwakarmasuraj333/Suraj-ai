@@ -5,25 +5,29 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #fafaf9;
-  --bg-elevated: rgba(255, 255, 255, 0.78);
-  --bg-glass: rgba(255, 255, 255, 0.72);
-  --border-subtle: rgba(15, 23, 42, 0.09);
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: rgba(255, 255, 255, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.78);
+  --border-subtle: rgba(15, 23, 42, 0.1);
+  --border-glow: rgba(6, 182, 212, 0.35);
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --accent: #ea580c;
-  --accent-soft: rgba(234, 88, 12, 0.1);
+  --accent: #0891b2;
+  --accent-soft: rgba(6, 182, 212, 0.1);
 }
 
 .dark {
-  --bg-primary: #090b10;
-  --bg-elevated: rgba(17, 21, 31, 0.78);
-  --bg-glass: rgba(15, 19, 28, 0.74);
-  --border-subtle: rgba(255, 255, 255, 0.09);
+  --bg-primary: #040712;
+  --bg-surface: #090e21;
+  --bg-elevated: rgba(13, 19, 38, 0.84);
+  --bg-glass: rgba(9, 14, 33, 0.72);
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --border-glow: rgba(34, 211, 238, 0.32);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
-  --accent: #fb923c;
-  --accent-soft: rgba(251, 146, 60, 0.14);
+  --accent: #22d3ee;
+  --accent-soft: rgba(34, 211, 238, 0.12);
 }
 
 * {
@@ -32,11 +36,51 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Futuristic SaaS glass & neon surfaces */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-card {
+  background: var(--bg-elevated);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 20px 50px -24px rgba(2, 6, 23, 0.35);
+}
+
+.dark .glass-card {
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.neon-gradient-text {
+  background: linear-gradient(120deg, #22d3ee 0%, #3b82f6 38%, #8b5cf6 70%, #e879f9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Perspective grid floor for hero & visual sections */
+.perspective-grid-floor {
+  background-image:
+    linear-gradient(to right, rgba(34, 211, 238, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.14) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(650px) rotateX(68deg);
+  transform-origin: center top;
+  mask-image: radial-gradient(ellipse 80% 75% at 50% 25%, #000 10%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 25%, #000 10%, transparent 82%);
 }
 
 /* Custom sleek scrollbars */
@@ -60,25 +104,25 @@ body {
 
 /* Markdown & prose refinements */
 .suraj-prose {
-  line-height: 1.7;
-  font-size: 0.95rem;
+  line-height: 1.75;
+  font-size: 0.96rem;
 }
 
 .suraj-prose h1,
 .suraj-prose h2,
 .suraj-prose h3 {
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  margin-top: 1.25em;
-  margin-bottom: 0.5em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 1.4em;
+  margin-bottom: 0.55em;
 }
 
-.suraj-prose h1 { font-size: 1.35rem; }
-.suraj-prose h2 { font-size: 1.15rem; }
-.suraj-prose h3 { font-size: 1.02rem; }
+.suraj-prose h1 { font-size: 1.45rem; }
+.suraj-prose h2 { font-size: 1.2rem; }
+.suraj-prose h3 { font-size: 1.04rem; }
 
 .suraj-prose p {
-  margin-bottom: 0.85em;
+  margin-bottom: 0.9em;
 }
 
 .suraj-prose p:last-child {
@@ -87,7 +131,7 @@ body {
 
 .suraj-prose ul,
 .suraj-prose ol {
-  margin: 0.6em 0 0.9em 1.35em;
+  margin: 0.65em 0 0.95em 1.35em;
 }
 
 .suraj-prose ul {
@@ -99,15 +143,15 @@ body {
 }
 
 .suraj-prose li {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.35em;
 }
 
 .suraj-prose blockquote {
   border-left: 3px solid var(--accent);
-  padding: 0.4rem 0.9rem;
-  margin: 0.8rem 0;
+  padding: 0.5rem 1rem;
+  margin: 0.9rem 0;
   background: var(--accent-soft);
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 0.6rem 0.6rem 0;
 }
 
 .suraj-prose table {
@@ -140,8 +184,10 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-aurora-slow,
-  .animate-pulse-soft {
+  .animate-pulse-soft,
+  .animate-orbit-slow,
+  .animate-orbit-reverse,
+  .animate-float-subtle {
     animation: none !important;
   }
 }
-

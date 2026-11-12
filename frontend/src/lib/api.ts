@@ -1,12 +1,20 @@
 import type {
+  AdminLogEntry,
+  AdminOverview,
   AttachmentSummary,
   AuthResponse,
+  BillingStatusResponse,
+  BlogDetailResponse,
+  BlogPost,
   Capabilities,
+  ContactSubmission,
   Conversation,
   ConversationDetail,
   ImageGenerateResponse,
+  PlanTierInfo,
   UsageSummary,
   User,
+  UserMemory,
   UserPreferences,
 } from "@/types";
 
@@ -77,16 +85,56 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 
 export const api = {
   // Auth
-  signup: (email: string, full_name: string, password: string) =>
+  signup: (
+    email: string,
+    full_name: string,
+    password: string,
+    options?: { confirm_password?: string; accept_terms?: boolean; request_otp?: boolean }
+  ) =>
     request<AuthResponse>("/auth/signup", {
       method: "POST",
-      body: JSON.stringify({ email, full_name, password }),
+      body: JSON.stringify({
+        email,
+        full_name,
+        password,
+        ...(options || {}),
+      }),
     }),
 
   login: (email: string, password: string) =>
     request<AuthResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
+    }),
+
+  sendOtp: (email: string, purpose: "verify_email" | "reset_password" = "verify_email") =>
+    request<{ sent: boolean; expires_in_seconds: number; cooldown_seconds: number }>("/auth/send-otp", {
+      method: "POST",
+      body: JSON.stringify({ email, purpose }),
+    }),
+
+  verifyOtp: (email: string, otp: string, purpose: "verify_email" | "reset_password" = "verify_email") =>
+    request<{ verified: boolean; email: string }>("/auth/verify-otp", {
+      method: "POST",
+      body: JSON.stringify({ email, otp, purpose }),
+    }),
+
+  forgotPassword: (email: string) =>
+    request<{ sent: boolean; message: string }>("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    }),
+
+  resetPassword: (email: string, otp: string, new_password: string, confirm_password: string) =>
+    request<{ reset: boolean; message: string }>("/auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify({ email, otp, new_password, confirm_password }),
+    }),
+
+  changePassword: (current_password: string, new_password: string, confirm_password: string) =>
+    request<{ changed: boolean; message: string }>("/auth/change-password", {
+      method: "POST",
+      body: JSON.stringify({ current_password, new_password, confirm_password }),
     }),
 
   me: () => request<User>("/auth/me"),
@@ -163,6 +211,144 @@ export const api = {
 
   // Usage
   usageSummary: () => request<UsageSummary>("/usage/summary"),
+
+  // Persistent AI Memory
+  listMemories: () => request<UserMemory[]>("/memories"),
+  createMemory: (payload: {
+    title: string;
+    content: string;
+    category: "preference" | "project" | "fact" | "instruction";
+  }) =>
+    request<UserMemory>("/memories", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateMemory: (
+    id: string,
+    patch: Partial<Pick<UserMemory, "title" | "content" | "category" | "is_active">>
+  ) =>
+    request<UserMemory>(`/memories/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(patch),
+    }),
+  deleteMemory: (id: string) =>
+    request<void>(`/memories/${id}`, { method: "DELETE" }),
+
+  // Blog (Public)
+  listBlogCategories: () => request<string[]>("/blog/categories"),
+  listBlogPosts: (params?: {
+    category?: string;
+    search?: string;
+    featured?: boolean;
+    limit?: number;
+  }) => {
+    const qs = new URLSearchParams();
+    if (params?.category) qs.set("category", params.category);
+    if (params?.search) qs.set("search", params.search);
+    if (params?.featured !== undefined) qs.set("featured", String(params.featured));
+    if (params?.limit) qs.set("limit", String(params.limit));
+    const qStr = qs.toString();
+    return request<BlogPost[]>(`/blog/posts${qStr ? `?${qStr}` : ""}`);
+  },
+  getBlogPost: (slug: string) => request<BlogDetailResponse>(`/blog/posts/${encodeURIComponent(slug)}`),
+
+  // Billing & Pricing
+  listPlans: () =>
+    request<{ plans: PlanTierInfo[]; stripe_configured: boolean; razorpay_configured: boolean }>(
+      "/billing/plans"
+    ),
+  billingStatus: () => request<BillingStatusResponse>("/billing/status"),
+  createCheckout: (payload: {
+    plan_tier: "free" | "pro" | "premium" | "enterprise";
+    billing_cycle: "monthly" | "yearly";
+    provider?: "stripe" | "razorpay";
+  }) =>
+    request<{
+      status: string;
+      plan_tier: string;
+      checkout_url?: string;
+      message?: string;
+    }>("/billing/checkout", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
+  // Contact
+  submitContact: (payload: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    website?: string;
+  }) =>
+    request<ContactSubmission>("/contact", {
+      method: "POST",
+      body: JSON.stringify({ website: "", ...payload }),
+    }),
+
+  // Newsletter
+  newsletterSubscribe: (payload: { email: string; consent: boolean; website?: string }) =>
+    request<{
+      subscribed: boolean;
+      email: string;
+      email_sent: boolean;
+      email_status: string;
+      message: string;
+    }>("/newsletter/subscribe", {
+      method: "POST",
+      body: JSON.stringify({ website: "", ...payload }),
+    }),
+
+  newsletterUnsubscribe: (payload: { email: string; token?: string }) =>
+    request<{ unsubscribed: boolean; email: string; message: string }>("/newsletter/unsubscribe", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
+  // Admin Console
+  adminOverview: () => request<AdminOverview>("/admin/overview"),
+  adminListUsers: () => request<User[]>("/admin/users"),
+  adminUpdateUser: (id: string, patch: { is_active?: boolean; role?: "user" | "admin" }) =>
+    request<User>(`/admin/users/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(patch),
+    }),
+  adminLogs: (limit = 50) => request<AdminLogEntry[]>(`/admin/logs?limit=${limit}`),
+  adminContacts: () => request<ContactSubmission[]>("/admin/contacts"),
+  adminListBlogPosts: () => request<BlogPost[]>("/admin/blog/posts"),
+  adminCreateBlogPost: (payload: {
+    title: string;
+    slug?: string;
+    excerpt: string;
+    content: string;
+    cover_image_url?: string | null;
+    category: string;
+    tags: string[];
+    author_name?: string;
+    status: "draft" | "published";
+    is_featured?: boolean;
+    seo_title?: string;
+    seo_description?: string;
+  }) =>
+    request<BlogPost>("/admin/blog/posts", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  adminUpdateBlogPost: (id: string, patch: Partial<BlogPost>) =>
+    request<BlogPost>(`/admin/blog/posts/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(patch),
+    }),
+  adminDeleteBlogPost: (id: string) =>
+    request<void>(`/admin/blog/posts/${id}`, { method: "DELETE" }),
+  adminUploadBlogCover: async (file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    return request<{ cover_image_url: string }>("/admin/blog/upload-cover", {
+      method: "POST",
+      body: form,
+    });
+  },
 };
 
 export interface SSEHandlers {

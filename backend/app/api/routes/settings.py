@@ -66,5 +66,10 @@ async def get_capabilities(db: AsyncSession = Depends(get_db)) -> CapabilitiesRe
         },
         rate_limit_rpm=settings.RATE_LIMIT_REQUESTS_PER_MINUTE,
         rate_limit_daily_tokens=settings.RATE_LIMIT_DAILY_TOKENS,
+        smtp_configured=settings.has_smtp_configured,
+        stripe_configured=settings.has_stripe_configured,
+        razorpay_configured=settings.has_razorpay_configured,
+        memory_enabled=True,
+        rag_enabled=True,
     )
 

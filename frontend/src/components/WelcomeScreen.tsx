@@ -72,17 +72,17 @@ export function WelcomeScreen({
   const anyLlmConfigured = capabilities?.llm_providers.some((p) => p.configured) ?? false;
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center px-4 py-10">
+    <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center px-3 py-6 sm:px-6 sm:py-10">
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
         className="mb-6 flex flex-col items-center text-center"
       >
-        <div className="mb-4 rounded-2xl border border-orange-500/20 bg-white/70 p-3 shadow-xl shadow-orange-500/10 backdrop-blur-xl dark:bg-white/[0.04]">
-          <SurajLogo size={46} showWordmark={false} />
+        <div className="mb-4 rounded-2xl border border-orange-500/25 bg-white/80 p-3 shadow-xl shadow-orange-500/15 backdrop-blur-xl dark:bg-white/[0.04]">
+          <SurajLogo size={48} showWordmark={false} />
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
           Welcome to{" "}
           <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
             SURaj AI

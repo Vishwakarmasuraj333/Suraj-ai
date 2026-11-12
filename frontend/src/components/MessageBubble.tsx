@@ -246,6 +246,25 @@ export const MessageBubble = React.memo(function MessageBubble({
               <MarkdownRenderer content={message.content} isDark={isDark} />
             )}
 
+            {Array.isArray((message.metadata_json as { rag_sources?: Array<{ filename: string; section: number }> })?.rag_sources) &&
+              ((message.metadata_json as { rag_sources?: Array<{ filename: string; section: number }> }).rag_sources?.length ?? 0) > 0 && (
+                <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-200/70 pt-2.5 dark:border-white/10">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
+                    Sources:
+                  </span>
+                  {(
+                    message.metadata_json as { rag_sources: Array<{ filename: string; section: number }> }
+                  ).rag_sources.map((src, idx) => (
+                    <span
+                      key={`${src.filename}-${src.section}-${idx}`}
+                      className="rounded-md border border-cyan-500/25 bg-cyan-500/10 px-2 py-0.5 text-[11px] font-medium text-cyan-700 dark:text-cyan-300"
+                    >
+                      {src.filename} §{src.section}
+                    </span>
+                  ))}
+                </div>
+              )}
+
             {isStreamingThis && message.content && (
               <span className="ml-1 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-orange-500 align-middle" />
             )}

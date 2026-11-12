@@ -124,9 +124,9 @@ export function SettingsModal({
             className="relative z-10 flex max-h-[88vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/95 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-[#0e131f]/95"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-200/80 px-6 py-4 dark:border-white/10">
+            <div className="flex items-center justify-between border-b border-slate-200/80 px-4 py-3.5 dark:border-white/10 sm:px-6 sm:py-4">
               <div>
-                <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                <h2 className="text-base font-bold text-slate-900 dark:text-white sm:text-lg">
                   Workspace Settings & Integrations
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -137,14 +137,14 @@ export function SettingsModal({
                 type="button"
                 onClick={onClose}
                 aria-label="Close settings"
-                className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10"
+                className="rounded-xl p-1.5 text-slate-400 transition hover:bg-slate-100 dark:hover:bg-white/10"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-1 border-b border-slate-200/80 px-6 py-2.5 text-xs font-semibold dark:border-white/10">
+            <div className="flex gap-1 overflow-x-auto border-b border-slate-200/80 px-4 py-2.5 text-xs font-semibold dark:border-white/10 sm:px-6">
               {[
                 { id: "general", label: "Preferences", icon: Sliders },
                 { id: "integrations", label: "API Integrations", icon: KeyRound },
@@ -157,7 +157,7 @@ export function SettingsModal({
                     key={item.id}
                     type="button"
                     onClick={() => setTab(item.id as typeof tab)}
-                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 transition ${
+                    className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2 transition ${
                       active
                         ? "bg-orange-500/15 text-orange-600 dark:text-orange-300"
                         : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/5"

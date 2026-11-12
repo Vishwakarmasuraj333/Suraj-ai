@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 10080
 
     CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+    FRONTEND_BASE_URL: str = "http://localhost:3000"
 
     DATABASE_URL: str = "postgresql+asyncpg://suraj:suraj_password@localhost:5432/suraj_ai"
     REDIS_URL: str = ""
@@ -53,6 +54,23 @@ class Settings(BaseSettings):
     MAX_UPLOAD_SIZE_MB: int = 25
     RATE_LIMIT_REQUESTS_PER_MINUTE: int = 30
     RATE_LIMIT_DAILY_TOKENS: int = 250000
+
+    # Real SMTP Email Delivery (for OTP verification, password resets, contact notifications)
+    SMTP_HOST: str = ""
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_FROM_EMAIL: str = ""
+    SMTP_USE_TLS: bool = True
+    EMAIL_OTP_EXPIRE_MINUTES: int = 10
+    EMAIL_OTP_RESEND_COOLDOWN_SECONDS: int = 60
+    EMAIL_OTP_MAX_ATTEMPTS: int = 5
+
+    # Real Payment Gateways (Stripe / Razorpay)
+    STRIPE_SECRET_KEY: str = ""
+    STRIPE_WEBHOOK_SECRET: str = ""
+    RAZORPAY_KEY_ID: str = ""
+    RAZORPAY_KEY_SECRET: str = ""
 
     @field_validator("UPLOAD_DIR")
     @classmethod
@@ -89,6 +107,24 @@ class Settings(BaseSettings):
     @property
     def has_redis_configured(self) -> bool:
         return bool(self.REDIS_URL.strip())
+
+    @property
+    def has_smtp_configured(self) -> bool:
+        return bool(
+            self.SMTP_HOST.strip()
+            and self.SMTP_FROM_EMAIL.strip()
+            and self.SMTP_USER.strip()
+            and self.SMTP_PASSWORD.strip()
+        )
+
+    @property
+    def has_stripe_configured(self) -> bool:
+        key = self.STRIPE_SECRET_KEY.strip()
+        return bool(key and not key.startswith("your-"))
+
+    @property
+    def has_razorpay_configured(self) -> bool:
+        return bool(self.RAZORPAY_KEY_ID.strip() and self.RAZORPAY_KEY_SECRET.strip())
 
     @property
     def allow_rate_limit_dev_fallback(self) -> bool:

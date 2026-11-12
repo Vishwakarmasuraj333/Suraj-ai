@@ -7,11 +7,27 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.routes import auth, chat, conversations, files, health, images, settings, usage
+from app.api.routes import (
+    admin,
+    auth,
+    billing,
+    blog,
+    chat,
+    contact,
+    conversations,
+    files,
+    health,
+    images,
+    memories,
+    newsletter,
+    settings,
+    usage,
+)
 from app.core.config import get_settings
-from app.core.database import engine, init_db
+from app.core.database import AsyncSessionLocal, engine, init_db
 from app.core.logging import configure_logging, get_logger, mask_secret, request_id_ctx
 from app.core.monitoring import metrics
+from app.services.blog_service import seed_initial_blog_posts
 from app.services.rate_limit_service import close_redis_client
 
 app_settings = get_settings()
@@ -37,6 +53,8 @@ async def lifespan(_: FastAPI):
         mask_secret(app_settings.ANTHROPIC_API_KEY),
     )
     await init_db()
+    async with AsyncSessionLocal() as db:
+        await seed_initial_blog_posts(db)
     yield
     await close_redis_client()
     await engine.dispose()
@@ -122,5 +140,11 @@ app.include_router(conversations.router, prefix="/api/v1")
 app.include_router(chat.router, prefix="/api/v1")
 app.include_router(files.router, prefix="/api/v1")
 app.include_router(images.router, prefix="/api/v1")
+app.include_router(memories.router, prefix="/api/v1")
+app.include_router(newsletter.router, prefix="/api/v1")
+app.include_router(blog.router, prefix="/api/v1")
+app.include_router(billing.router, prefix="/api/v1")
+app.include_router(contact.router, prefix="/api/v1")
+app.include_router(admin.router, prefix="/api/v1")
 app.include_router(settings.router, prefix="/api/v1")
 app.include_router(usage.router, prefix="/api/v1")

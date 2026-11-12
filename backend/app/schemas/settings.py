@@ -44,4 +44,9 @@ class CapabilitiesResponse(BaseModel):
     file_processing: dict[str, bool]
     rate_limit_rpm: int
     rate_limit_daily_tokens: int
+    smtp_configured: bool = False
+    stripe_configured: bool = False
+    razorpay_configured: bool = False
+    memory_enabled: bool = True
+    rag_enabled: bool = True
 

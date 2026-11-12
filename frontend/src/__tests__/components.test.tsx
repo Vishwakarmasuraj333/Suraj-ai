@@ -5,8 +5,13 @@ import { describe, expect, it, vi } from "vitest";
 import { AuthModal } from "@/components/AuthModal";
 import { ChartBlock } from "@/components/ChartBlock";
 import { Composer } from "@/components/Composer";
+import { HeroAiCore } from "@/components/HeroAiCore";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { SurajLogo } from "@/components/SurajLogo";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
+import { WorkspacePreview } from "@/components/WorkspacePreview";
+import { ArchitectureAndPricingSection } from "@/components/landing/ArchitectureAndPricingSection";
+import { FaqSection } from "@/components/landing/FaqSection";
 
 describe("SURaj AI Frontend Components", () => {
   it("renders WelcomeScreen with SURaj AI branding and unconfigured API notice", () => {
@@ -146,6 +151,40 @@ describe("SURaj AI Frontend Components", () => {
     expect(screen.getByText("Sign in to SURaj AI")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Create Account" }));
     expect(screen.getByText("Create your SURaj AI account")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Suraj Sharma")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Enter your full name")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Re-enter password")).toBeInTheDocument();
+  });
+
+  it("renders SurajLogo icon-only and full variants cleanly", () => {
+    const { rerender } = render(<SurajLogo showSub />);
+    expect(screen.getByText("SURaj")).toBeInTheDocument();
+    expect(screen.getByText("AI")).toBeInTheDocument();
+    rerender(<SurajLogo iconOnly />);
+    expect(screen.queryByText("SURaj")).not.toBeInTheDocument();
+  });
+
+  it("renders HeroAiCore, WorkspacePreview, ArchitectureAndPricingSection, and FaqSection", () => {
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      }
+    );
+    render(<HeroAiCore />);
+    expect(screen.getByText("SURAJ AI CORE")).toBeInTheDocument();
+
+    render(<WorkspacePreview capabilities={null} />);
+    expect(screen.getByText("Meet Your Intelligent Workspace")).toBeInTheDocument();
+    expect(screen.getByText("Sample Demonstration Output")).toBeInTheDocument();
+
+    render(<ArchitectureAndPricingSection capabilities={null} />);
+    expect(screen.getByText("From Question to Intelligence")).toBeInTheDocument();
+    expect(screen.getByText("Pro Workspace")).toBeInTheDocument();
+
+    render(<FaqSection />);
+    expect(screen.getByText("Frequently Asked Questions")).toBeInTheDocument();
+    expect(screen.getByText("Stay Ahead of Artificial Intelligence")).toBeInTheDocument();
   });
 });

@@ -28,6 +28,8 @@ from app.services.llm_provider_service import (
     ProviderNotConfiguredError,
     stream_chat_completion,
 )
+from app.services.memory_service import get_active_memories_prompt
+from app.services.rag_service import format_rag_context, retrieve_relevant_chunks
 from app.services.rate_limit_service import check_user_limits, record_usage
 from app.services.user_settings_service import get_or_create_preferences
 from app.schemas.chat import ConversationCreate
@@ -357,7 +359,11 @@ async def prepare_regenerate(
 
 
 def _build_system_prompt_from_values(
-    preferred_language: str, system_instructions: Optional[str], language_override: Optional[str]
+    preferred_language: str,
+    system_instructions: Optional[str],
+    language_override: Optional[str],
+    memory_prompt: str = "",
+    rag_prompt: str = "",
 ) -> str:
     lang = language_override or preferred_language or "auto"
     lang_rule = (
@@ -379,6 +385,13 @@ def _build_system_prompt_from_values(
     ]
     if system_instructions and system_instructions.strip():
         parts.append(f"User custom instructions:\n{system_instructions.strip()}")
+    if memory_prompt.strip():
+        parts.append(f"Persistent user memory (apply when relevant):\n{memory_prompt.strip()}")
+    if rag_prompt.strip():
+        parts.append(
+            "Retrieved Knowledge RAG excerpts (cite matching sources like [Source: filename | Section N] when answering):\n"
+            + rag_prompt.strip()
+        )
     return "\n".join(parts)
 
 
@@ -407,6 +420,7 @@ async def execute_prepared_stream(
     error_message: Optional[str] = None
     error_code: Optional[str] = None
     required_env_var: Optional[str] = None
+    rag_sources: list[dict[str, object]] = []
 
     try:
         async with AsyncSessionLocal() as session:
@@ -420,8 +434,28 @@ async def execute_prepared_stream(
                 .order_by(Message.created_at.asc(), Message.id.asc())
             )
             history = list(hist_q.scalars().all())
+            memory_prompt = await get_active_memories_prompt(session, ctx.user_id)
+            doc_attachments = [
+                att
+                for m in history
+                for att in m.attachments
+                if att.kind != "image" and att.extracted_text
+            ]
+            last_user_text = next(
+                (m.content for m in reversed(history) if m.role == "user"), ""
+            )
+            rag_chunks = retrieve_relevant_chunks(last_user_text, doc_attachments, top_k=6)
+            rag_prompt = format_rag_context(rag_chunks)
+            rag_sources = [
+                {"filename": ch.filename, "section": ch.chunk_index}
+                for ch in rag_chunks
+            ]
             system_prompt = _build_system_prompt_from_values(
-                ctx.preferred_language, ctx.system_instructions, ctx.language_override
+                ctx.preferred_language,
+                ctx.system_instructions,
+                ctx.language_override,
+                memory_prompt=memory_prompt,
+                rag_prompt=rag_prompt,
             )
             llm_messages = _build_llm_messages(system_prompt, history)
 
@@ -506,6 +540,8 @@ async def execute_prepared_stream(
                 meta["error_code"] = error_code
             if required_env_var:
                 meta["required_env_var"] = required_env_var
+            if rag_sources:
+                meta["rag_sources"] = rag_sources
             msg.metadata_json = meta
             conv_res = await session.execute(
                 select(Conversation).where(Conversation.id == ctx.conversation_id)
