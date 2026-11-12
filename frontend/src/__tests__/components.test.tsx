@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom/vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { AuthModal } from "@/components/AuthModal";
 import { ChartBlock } from "@/components/ChartBlock";
@@ -11,7 +11,9 @@ import { SurajLogo } from "@/components/SurajLogo";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { WorkspacePreview } from "@/components/WorkspacePreview";
 import { ArchitectureAndPricingSection } from "@/components/landing/ArchitectureAndPricingSection";
+import { AnimatedFeatureSlider } from "@/components/landing/AnimatedFeatureSlider";
 import { FaqSection } from "@/components/landing/FaqSection";
+import { AIOrbitalCore, AnimatedBackground } from "@/components/background";
 
 describe("SURaj AI Frontend Components", () => {
   it("renders WelcomeScreen with SURaj AI branding and unconfigured API notice", () => {
@@ -146,21 +148,30 @@ describe("SURaj AI Frontend Components", () => {
     expect(link.getAttribute("href") || "").not.toContain("javascript:");
   });
 
-  it("toggles AuthModal between Sign In and Create Account", () => {
+  it("toggles AuthModal between Sign In and Create Account and toggles password visibility", () => {
     render(<AuthModal isOpen={true} onClose={vi.fn()} onAuthenticated={vi.fn()} />);
     expect(screen.getByText("Sign in to SURaj AI")).toBeInTheDocument();
+    const loginPwInput = screen.getByPlaceholderText("Enter your password") as HTMLInputElement;
+    expect(loginPwInput.type).toBe("password");
+    fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+    expect(loginPwInput.type).toBe("text");
+
     fireEvent.click(screen.getByRole("button", { name: "Create Account" }));
     expect(screen.getByText("Create your SURaj AI account")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Enter your full name")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Re-enter password")).toBeInTheDocument();
+    const confirmPwInput = screen.getByPlaceholderText("Re-enter password") as HTMLInputElement;
+    expect(confirmPwInput.type).toBe("password");
+    const showButtons = screen.getAllByRole("button", { name: "Show password" });
+    fireEvent.click(showButtons[showButtons.length - 1]);
+    expect(confirmPwInput.type).toBe("text");
   });
 
-  it("renders SurajLogo icon-only and full variants cleanly", () => {
+  it("renders SurajLogo icon-only and full uppercase SURAJ AI variants cleanly", () => {
     const { rerender } = render(<SurajLogo showSub />);
-    expect(screen.getByText("SURaj")).toBeInTheDocument();
+    expect(screen.getByText("SURAJ")).toBeInTheDocument();
     expect(screen.getByText("AI")).toBeInTheDocument();
     rerender(<SurajLogo iconOnly />);
-    expect(screen.queryByText("SURaj")).not.toBeInTheDocument();
+    expect(screen.queryByText("SURAJ")).not.toBeInTheDocument();
   });
 
   it("renders HeroAiCore, WorkspacePreview, ArchitectureAndPricingSection, and FaqSection", () => {
@@ -186,5 +197,43 @@ describe("SURaj AI Frontend Components", () => {
     render(<FaqSection />);
     expect(screen.getByText("Frequently Asked Questions")).toBeInTheDocument();
     expect(screen.getByText("Stay Ahead of Artificial Intelligence")).toBeInTheDocument();
+  });
+
+  it("renders AnimatedBackground variants and AIOrbitalCore as non-blocking decorative layers", () => {
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      }
+    );
+    const { container: bgContainer } = render(
+      <div>
+        <AnimatedBackground variant="home" />
+        <AnimatedBackground variant="rag" />
+        <AnimatedBackground variant="memory" />
+        <AnimatedBackground variant="tools" />
+        <AnimatedBackground variant="pricing" />
+        <AnimatedBackground variant="footer" />
+        <AIOrbitalCore />
+      </div>
+    );
+    const layers = bgContainer.querySelectorAll("[data-bg-variant]");
+    expect(layers.length).toBe(6);
+    layers.forEach((layer) => {
+      expect(layer.getAttribute("aria-hidden")).toBe("true");
+      expect(layer.className).toContain("pointer-events-none");
+    });
+    expect(bgContainer.querySelectorAll(".perspective-grid-floor").length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("renders AnimatedFeatureSlider and advances slides interactively", async () => {
+    render(<AnimatedFeatureSlider />);
+    expect(screen.getByRole("heading", { name: /Multi-Provider SSE Streaming/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Next slide" }));
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: /Grounded Knowledge RAG/i })).toBeInTheDocument();
+    });
   });
 });

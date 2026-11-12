@@ -17,6 +17,7 @@ import {
   Sparkles,
   Workflow,
 } from "lucide-react";
+import { AnimatedBackground } from "@/components/background";
 import type { Capabilities } from "@/types";
 
 const WORKFLOW_STEPS = [
@@ -101,7 +102,7 @@ const HOMEPAGE_PLANS: PricingCard[] = [
     name: "Developer",
     monthlyPrice: "$0",
     yearlyPrice: "$0",
-    description: "Perfect for exploring SURaj AI capabilities.",
+    description: "Perfect for exploring SURAJ AI capabilities.",
     features: [
       "Access to configured AI providers",
       "Monthly usage allowance",
@@ -216,8 +217,10 @@ export function ArchitectureAndPricingSection({
       </section>
 
       {/* Multi-Provider AI Architecture */}
-      <section id="architecture" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mb-10 text-center">
+      <section id="architecture" className="relative isolate overflow-hidden mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <AnimatedBackground variant="architecture" className="rounded-3xl opacity-65" />
+        <div className="relative z-10">
+          <div className="mb-10 text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-300">
             <Cpu className="h-3.5 w-3.5" /> Live Backend Telemetry
           </span>
@@ -390,10 +393,13 @@ export function ArchitectureAndPricingSection({
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Transparent Pricing Preview */}
-      <section id="pricing" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section id="pricing" className="relative isolate overflow-hidden mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <AnimatedBackground variant="pricing" className="rounded-3xl opacity-80" />
+        <div className="relative z-10">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Simple, Transparent Pricing
@@ -500,6 +506,7 @@ export function ArchitectureAndPricingSection({
               </div>
             );
           })}
+        </div>
         </div>
       </section>
     </>

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { PasswordInput } from "@/components/PasswordInput";
 import { useAuth } from "@/components/AuthProvider";
 import { api, ApiError } from "@/lib/api";
 
@@ -364,31 +365,31 @@ export default function AuthPage() {
                 Requires your current password and minimum 8 characters with letters and digits.
               </p>
               <form onSubmit={handleChangePassword} className="mt-4 space-y-3">
-                <input
-                  type="password"
+                <PasswordInput
                   required
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
+                  leftIcon={<Lock className="h-4 w-4" />}
                   placeholder="Current password"
-                  className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-sm dark:border-white/10 dark:bg-slate-950/70"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
                 />
-                <input
-                  type="password"
+                <PasswordInput
                   required
                   minLength={8}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
+                  leftIcon={<Lock className="h-4 w-4" />}
                   placeholder="New password"
-                  className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-sm dark:border-white/10 dark:bg-slate-950/70"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
                 />
-                <input
-                  type="password"
+                <PasswordInput
                   required
                   minLength={8}
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  leftIcon={<KeyRound className="h-4 w-4" />}
                   placeholder="Confirm new password"
-                  className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-sm dark:border-white/10 dark:bg-slate-950/70"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
                 />
                 <button
                   type="submit"
@@ -447,17 +448,14 @@ export default function AuthPage() {
                     className="w-full rounded-xl border border-slate-200 bg-white/80 py-2.5 pl-9 pr-3 text-sm dark:border-white/10 dark:bg-slate-950/70"
                   />
                 </div>
-                <div className="relative">
-                  <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    className="w-full rounded-xl border border-slate-200 bg-white/80 py-2.5 pl-9 pr-3 text-sm dark:border-white/10 dark:bg-slate-950/70"
-                  />
-                </div>
+                <PasswordInput
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  leftIcon={<Lock className="h-4 w-4" />}
+                  placeholder="Password"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
+                />
                 <button
                   type="submit"
                   disabled={submitting}
@@ -495,18 +493,15 @@ export default function AuthPage() {
                   />
                 </div>
                 <div>
-                  <div className="relative">
-                    <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="password"
-                      required
-                      minLength={8}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Password (8+ chars, letter & digit)"
-                      className="w-full rounded-xl border border-slate-200 bg-white/80 py-2.5 pl-9 pr-3 text-sm dark:border-white/10 dark:bg-slate-950/70"
-                    />
-                  </div>
+                  <PasswordInput
+                    required
+                    minLength={8}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    leftIcon={<Lock className="h-4 w-4" />}
+                    placeholder="Password (8+ chars, letter & digit)"
+                    inputClassName="bg-white/80 dark:bg-slate-950/70"
+                  />
                   {password && (
                     <div className="mt-1.5 space-y-1">
                       <div className="flex gap-1">
@@ -523,18 +518,15 @@ export default function AuthPage() {
                     </div>
                   )}
                 </div>
-                <div className="relative">
-                  <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="password"
-                    required
-                    minLength={8}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm Password"
-                    className="w-full rounded-xl border border-slate-200 bg-white/80 py-2.5 pl-9 pr-3 text-sm dark:border-white/10 dark:bg-slate-950/70"
-                  />
-                </div>
+                <PasswordInput
+                  required
+                  minLength={8}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  leftIcon={<KeyRound className="h-4 w-4" />}
+                  placeholder="Confirm Password"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
+                />
                 {smtpConfigured && (
                   <label className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
                     <input
@@ -618,23 +610,23 @@ export default function AuthPage() {
                   placeholder="6-digit OTP code"
                   className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-sm dark:border-white/10 dark:bg-slate-950/70"
                 />
-                <input
-                  type="password"
+                <PasswordInput
                   required
                   minLength={8}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
+                  leftIcon={<Lock className="h-4 w-4" />}
                   placeholder="New password"
-                  className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-sm dark:border-white/10 dark:bg-slate-950/70"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
                 />
-                <input
-                  type="password"
+                <PasswordInput
                   required
                   minLength={8}
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  leftIcon={<KeyRound className="h-4 w-4" />}
                   placeholder="Confirm new password"
-                  className="w-full rounded-xl border border-slate-200 bg-white/80 px-3.5 py-2.5 text-sm dark:border-white/10 dark:bg-slate-950/70"
+                  inputClassName="bg-white/80 dark:bg-slate-950/70"
                 />
                 <button
                   type="submit"

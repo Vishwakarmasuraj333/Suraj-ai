@@ -15,6 +15,7 @@ from app.models.models import Attachment, Conversation
 from app.schemas.chat import ImageGenerateRequest, ImageGenerateResponse
 from app.services.llm_provider_service import ProviderAPIError, ProviderNotConfiguredError
 from app.services.rate_limit_service import record_usage
+from app.services.safety_service import enforce_content_safety
 
 
 def get_image_provider_capabilities() -> list[dict[str, str | bool]]:
@@ -43,6 +44,7 @@ async def generate_image(
     user_id: UUID,
     payload: ImageGenerateRequest,
 ) -> ImageGenerateResponse:
+    enforce_content_safety(payload.prompt)
     settings = get_settings()
     if payload.conversation_id is not None:
         conv_check = await db.execute(
@@ -192,7 +194,11 @@ async def _generate_gemini_image(*, prompt: str, model: str) -> tuple[bytes, Opt
     }
     payload = {
         "instances": [{"prompt": prompt}],
-        "parameters": {"sampleCount": 1},
+        "parameters": {
+            "sampleCount": 1,
+            "safetySetting": "block_low_and_above",
+            "personGeneration": "dont_allow",
+        },
     }
     try:
         async with httpx.AsyncClient(timeout=120.0) as client:

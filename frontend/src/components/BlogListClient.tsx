@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, Clock, Search, Tag } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import type { BlogPost } from "@/types";
 
 function slugifyCategory(cat: string): string {
@@ -42,9 +43,10 @@ export function BlogListClient({
   const featuredPost = filtered.find((p) => p.is_featured) || filtered[0];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="blog" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">

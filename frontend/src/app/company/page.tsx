@@ -15,9 +15,9 @@ export default function CompanyPage() {
       <Navbar />
       <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-14 space-y-12 sm:px-6">
         <section id="about" className="glass-card rounded-3xl p-6 sm:p-8 space-y-3">
-          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">About SURaj AI</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">About SURAJ AI</h1>
           <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            SURaj AI is engineered as a full-stack multi-provider AI SaaS platform focused on real, inspectable capabilities: honest provider routing across OpenAI, Google Gemini, and Anthropic Claude, file-based Knowledge RAG with section citations, explicit user-owned Persistent AI Memory, and clean React + FastAPI architecture.
+            Founded and architected by <strong>Suraj Vishwakarma</strong>, SURAJ AI is engineered as a full-stack multi-provider AI SaaS platform focused on real, inspectable capabilities: honest provider routing across OpenAI (ChatGPT), Google Gemini, and Anthropic Claude, file-based Knowledge RAG with section citations, explicit user-owned Persistent AI Memory, strict safe-content moderation rules, and clean React + FastAPI architecture.
           </p>
         </section>
 

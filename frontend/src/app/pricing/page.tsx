@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AlertTriangle, Check, CreditCard, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import { useAuth } from "@/components/AuthProvider";
 import { api, ApiError } from "@/lib/api";
 import type { BillingStatusResponse, PlanTierInfo } from "@/types";
@@ -76,9 +77,10 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="pricing" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">
             <CreditCard className="h-3.5 w-3.5" /> Subscription & Quotas

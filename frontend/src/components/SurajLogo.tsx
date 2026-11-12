@@ -91,8 +91,8 @@ export function SurajLogo({
       {!hideWordmark && (
         <div className="flex flex-col leading-none">
           <div className="flex items-center gap-1.5">
-            <span className={`text-[17px] font-bold tracking-tight ${textTone}`}>
-              SURaj
+            <span className={`text-[17px] font-extrabold uppercase tracking-wider ${textTone}`}>
+              SURAJ
             </span>
             <span className="rounded-md bg-gradient-to-r from-cyan-500 via-blue-600 to-fuchsia-500 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">
               AI

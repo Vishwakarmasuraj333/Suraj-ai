@@ -27,7 +27,9 @@ import { api } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HeroAiCore } from "@/components/HeroAiCore";
+import { AnimatedBackground } from "@/components/background";
 import { WorkspacePreview } from "@/components/WorkspacePreview";
+import { AnimatedFeatureSlider } from "@/components/landing/AnimatedFeatureSlider";
 import { ArchitectureAndPricingSection } from "@/components/landing/ArchitectureAndPricingSection";
 import { FaqSection } from "@/components/landing/FaqSection";
 import type { BlogPost, Capabilities } from "@/types";
@@ -180,22 +182,16 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col">
-      {/* Subtle Background Aurora */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute -left-32 -top-24 h-[480px] w-[480px] rounded-full bg-cyan-500/10 blur-[120px] dark:bg-cyan-500/15" />
-        <div className="absolute -right-24 top-40 h-[460px] w-[460px] rounded-full bg-violet-600/10 blur-[120px] dark:bg-violet-600/15" />
-      </div>
+    <div className="relative isolate min-h-screen flex flex-col">
+      {/* Multi-Layer Futuristic AI Background System */}
+      <AnimatedBackground variant="home" fixed />
 
       <Navbar />
 
-      <main className="flex-1">
+      <main className="relative z-10 flex-1">
         {/* HERO SECTION */}
-        <section className="relative overflow-hidden border-b border-slate-200/70 pb-16 pt-10 dark:border-white/10 sm:pb-24 sm:pt-16">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
+        <section className="relative isolate overflow-hidden border-b border-slate-200/70 pb-16 pt-10 dark:border-white/10 sm:pb-24 sm:pt-16">
+          <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
@@ -252,7 +248,7 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
         </section>
 
         {/* TRUST & CAPABILITY STRIP */}
-        <section className="border-b border-slate-200/70 bg-slate-100/60 py-6 dark:border-white/10 dark:bg-white/[0.02]">
+        <section className="border-b border-slate-200/70 bg-slate-100/50 py-6 backdrop-blur-md dark:border-white/10 dark:bg-[#050a1c]/55">
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 sm:grid-cols-2 lg:grid-cols-4 sm:px-6 lg:px-8">
             {TRUST_STRIP.map((item) => {
               const Icon = item.icon;
@@ -277,102 +273,120 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
         {/* LIVE WORKSPACE PREVIEW */}
         <WorkspacePreview capabilities={capabilities} />
 
-        {/* ENGINEERED FOR REAL AI PERFORMANCE */}
-        <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-              Engineered for Real AI Performance
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
-              Every feature in SURaj AI is designed around intelligent workflows, modular AI architecture and secure data processing.
-            </p>
-          </div>
+        {/* INTERACTIVE ANIMATED FEATURE SLIDER */}
+        <AnimatedFeatureSlider />
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {PERFORMANCE_CARDS.map((card, idx) => {
-              const Icon = card.icon;
-              return (
-                <motion.div
-                  key={card.id}
-                  id={card.anchor}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ duration: 0.35, delay: idx * 0.05 }}
-                  className="glass-card flex flex-col justify-between rounded-3xl p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
-                >
-                  <div>
-                    <div className="mb-4 flex items-center justify-between gap-2">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-600/15 to-violet-600/20 text-cyan-400 ring-1 ring-cyan-400/30">
-                        <Icon className="h-5 w-5" />
+        {/* ENGINEERED FOR REAL AI PERFORMANCE */}
+        <section id="features" className="relative isolate overflow-hidden mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <AnimatedBackground variant="features" className="rounded-3xl opacity-55" />
+          <div className="relative z-10">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+                Engineered for Real AI Performance
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
+                Every feature in SURAJ AI is designed around intelligent workflows, modular AI architecture and secure data processing.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {PERFORMANCE_CARDS.map((card, idx) => {
+                const Icon = card.icon;
+                const cardBgVariant =
+                  card.id === "knowledge-rag"
+                    ? "rag"
+                    : card.id === "ai-memory"
+                      ? "memory"
+                      : null;
+                return (
+                  <motion.div
+                    key={card.id}
+                    id={card.anchor}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.15 }}
+                    transition={{ duration: 0.35, delay: idx * 0.05 }}
+                    className="glass-card relative isolate overflow-hidden flex flex-col justify-between rounded-3xl p-6 transition hover:-translate-y-1 hover:border-cyan-400/40"
+                  >
+                    {cardBgVariant && (
+                      <AnimatedBackground variant={cardBgVariant} className="opacity-35" />
+                    )}
+                    <div className="relative z-10">
+                      <div className="mb-4 flex items-center justify-between gap-2">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-600/15 to-violet-600/20 text-cyan-400 ring-1 ring-cyan-400/30">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase ${card.badgeStyle}`}>
+                          {card.badge}
+                        </span>
                       </div>
-                      <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase ${card.badgeStyle}`}>
-                        {card.badge}
-                      </span>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                        {card.title}
+                      </h3>
+                      <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300 sm:text-sm">
+                        {card.description}
+                      </p>
+                      <ul className="mt-4 space-y-2 border-t border-slate-200/70 pt-4 text-xs text-slate-700 dark:border-white/10 dark:text-slate-300">
+                        {card.points.map((pt) => (
+                          <li key={pt} className="flex items-start gap-2">
+                            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-400" />
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                      {card.title}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300 sm:text-sm">
-                      {card.description}
-                    </p>
-                    <ul className="mt-4 space-y-2 border-t border-slate-200/70 pt-4 text-xs text-slate-700 dark:border-white/10 dark:text-slate-300">
-                      {card.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-2">
-                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-400" />
-                          <span>{pt}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </section>
 
         {/* WORKSPACE AI TOOLS DIRECTORY */}
         <section id="ai-tools" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="glass-card rounded-3xl p-6 sm:p-10">
-            <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-              <div>
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cyan-400">
-                  <Database className="h-3.5 w-3.5" /> Interactive Launcher
-                </span>
-                <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
-                  Launch Any Workspace Tool Directly
-                </h2>
+          <div className="glass-card relative isolate overflow-hidden rounded-3xl p-6 sm:p-10">
+            <AnimatedBackground variant="tools" className="opacity-65" />
+            <div className="relative z-10">
+              <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                <div>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cyan-400">
+                    <Database className="h-3.5 w-3.5" /> Interactive Launcher
+                  </span>
+                  <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
+                    Launch Any Workspace Tool Directly
+                  </h2>
+                </div>
+                <Link
+                  href="/chat"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:underline"
+                >
+                  Open Full Workspace <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
-              <Link
-                href="/chat"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:underline"
-              >
-                Open Full Workspace <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
 
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-              {WORKSPACE_TOOLS.map((tool) => {
-                const Icon = tool.icon;
-                return (
-                  <Link
-                    key={tool.name}
-                    href={tool.href}
-                    className="group rounded-2xl border border-slate-200/80 bg-white/70 p-4 transition hover:-translate-y-0.5 hover:border-cyan-400/50 dark:border-white/10 dark:bg-white/[0.03]"
-                  >
-                    <div className="flex items-center justify-between">
-                      <Icon className="h-5 w-5 text-cyan-400 transition group-hover:scale-110" />
-                      <span className="rounded-md bg-slate-200/80 px-2 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-white/10 dark:text-slate-300">
-                        {tool.status}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 text-sm font-bold text-slate-900 dark:text-white">
-                      {tool.name}
-                    </h3>
-                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{tool.desc}</p>
-                  </Link>
-                );
-              })}
+              <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+                {WORKSPACE_TOOLS.map((tool) => {
+                  const Icon = tool.icon;
+                  return (
+                    <Link
+                      key={tool.name}
+                      href={tool.href}
+                      className="group rounded-2xl border border-slate-200/80 bg-white/70 p-4 transition hover:-translate-y-0.5 hover:border-cyan-400/50 dark:border-white/10 dark:bg-white/[0.03]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <Icon className="h-5 w-5 text-cyan-400 transition group-hover:scale-110" />
+                        <span className="rounded-md bg-slate-200/80 px-2 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-white/10 dark:text-slate-300">
+                          {tool.status}
+                        </span>
+                      </div>
+                      <h3 className="mt-3 text-sm font-bold text-slate-900 dark:text-white">
+                        {tool.name}
+                      </h3>
+                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{tool.desc}</p>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
@@ -382,14 +396,16 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
 
         {/* ENGINEERING BLOG HIGHLIGHT (REAL DB POSTS) */}
         {initialFeaturedPosts.length > 0 && (
-          <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <section className="relative isolate overflow-hidden mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <AnimatedBackground variant="blog" className="rounded-3xl opacity-75" />
+            <div className="relative z-10">
+              <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-violet-400">
                   <BookOpen className="h-3.5 w-3.5" /> Engineering Insights
                 </span>
                 <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
-                  Latest from SURaj AI Blog
+                  Latest from SURAJ AI Blog
                 </h2>
               </div>
               <Link href="/blog" className="text-xs font-semibold text-cyan-400 hover:underline">
@@ -421,6 +437,7 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
                 </Link>
               ))}
             </div>
+            </div>
           </section>
         )}
 
@@ -431,7 +448,7 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
         <section className="mx-auto max-w-6xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-gradient-to-r from-[#07112b] via-[#0c1438] to-[#1a0f3a] p-8 text-center shadow-2xl sm:p-12">
             <h2 className="text-2xl font-extrabold text-white sm:text-4xl">
-              Build Smarter Workflows Inside SURaj AI
+              Build Smarter Workflows Inside SURAJ AI
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
               Start a real streaming session, inspect your document Knowledge RAG pipeline, or configure persistent user memory in seconds.
@@ -441,7 +458,7 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
                 href="/chat"
                 className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 px-7 py-3.5 text-sm font-bold text-white shadow-xl hover:brightness-110"
               >
-                Launch SURaj AI Workspace
+                Launch SURAJ AI Workspace
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link

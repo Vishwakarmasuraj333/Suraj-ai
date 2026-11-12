@@ -51,18 +51,24 @@ def get_provider_capabilities() -> list[ProviderCapability]:
     return [
         ProviderCapability(
             id="openai",
-            name="OpenAI (or OpenAI-Compatible)",
+            name="OpenAI ChatGPT (GPT-4o / GPT-4.1 / o4-mini)",
             configured=openai_configured,
-            models=["gpt-4o-mini", "gpt-4o", "gpt-4.1-mini", "o4-mini"],
+            models=["gpt-4o", "gpt-4o-mini", "gpt-4.1", "gpt-4.1-mini", "o4-mini", "o3-mini"],
             supports_vision=True,
             supports_streaming=True,
             required_env_var="OPENAI_API_KEY",
         ),
         ProviderCapability(
             id="gemini",
-            name="Google Gemini",
+            name="Google Gemini (Gemini 2.5 / 2.0 / 1.5)",
             configured=bool(settings.GEMINI_API_KEY.strip()),
-            models=["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash"],
+            models=[
+                "gemini-2.5-flash",
+                "gemini-2.5-pro",
+                "gemini-2.0-flash",
+                "gemini-2.0-flash-lite",
+                "gemini-1.5-pro",
+            ],
             supports_vision=True,
             supports_streaming=True,
             required_env_var="GEMINI_API_KEY",
@@ -220,6 +226,12 @@ async def _stream_gemini(
     payload: dict[str, Any] = {
         "contents": contents,
         "generationConfig": {"temperature": temperature},
+        "safetySettings": [
+            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_LOW_AND_ABOVE"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_LOW_AND_ABOVE"},
+            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        ],
     }
     if system_parts:
         payload["systemInstruction"] = {"parts": [{"text": "\n\n".join(system_parts)}]}

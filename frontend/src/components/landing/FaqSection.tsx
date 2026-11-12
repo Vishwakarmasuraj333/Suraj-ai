@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, ChevronDown, HelpCircle, Loader2, Mail } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
+import { AnimatedBackground } from "@/components/background";
 import { FAQ_ITEMS } from "@/data/faq";
 
 export { FAQ_ITEMS };
@@ -48,7 +49,9 @@ export function FaqSection({ showHeading = true }: { showHeading?: boolean }) {
   return (
     <>
       {/* FAQ Section */}
-      <section id="faq" className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <section id="faq" className="relative isolate overflow-hidden mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+        <AnimatedBackground variant="faq" className="rounded-3xl opacity-75" />
+        <div className="relative z-10">
         {showHeading && (
           <div className="mb-10 text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-1 text-xs font-semibold text-violet-600 dark:text-violet-300">
@@ -58,7 +61,7 @@ export function FaqSection({ showHeading = true }: { showHeading?: boolean }) {
               Frequently Asked Questions
             </h2>
             <p className="mt-2.5 text-sm text-slate-600 dark:text-slate-300 sm:text-base">
-              Everything you need to know about SURaj AI.
+              Everything you need to know about SURAJ AI.
             </p>
           </div>
         )}
@@ -117,6 +120,7 @@ export function FaqSection({ showHeading = true }: { showHeading?: boolean }) {
           </Link>
           .
         </div>
+        </div>
       </section>
 
       {/* Newsletter & Community */}
@@ -134,7 +138,7 @@ export function FaqSection({ showHeading = true }: { showHeading?: boolean }) {
                 Stay Ahead of Artificial Intelligence
               </h2>
               <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                Get useful updates about AI technologies, model releases, engineering tutorials and SURaj AI product improvements.
+                Get useful updates about AI technologies, model releases, engineering tutorials and SURAJ AI product improvements.
               </p>
             </div>
 
@@ -211,7 +215,7 @@ export function FaqSection({ showHeading = true }: { showHeading?: boolean }) {
                       className="mt-0.5 rounded border-slate-300 text-cyan-500 focus:ring-cyan-500"
                     />
                     <span>
-                      I agree to receive SURaj AI product updates and engineering articles, and understand I can unsubscribe anytime.
+                      I agree to receive SURAJ AI product updates and engineering articles, and understand I can unsubscribe anytime.
                     </span>
                   </label>
                 )}

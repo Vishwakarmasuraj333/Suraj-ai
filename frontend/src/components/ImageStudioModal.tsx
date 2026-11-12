@@ -111,6 +111,9 @@ export function ImageStudioModal({
             )}
 
             <form onSubmit={handleGenerate} className="space-y-3.5">
+              <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-[11px] font-medium text-emerald-700 dark:text-emerald-300">
+                Safe-for-Work Rules Enforced: NSFW, adult, explicit sexual, nude, or harmful prompts are strictly blocked. Only real OpenAI / Google Imagen outputs are generated.
+              </div>
               <textarea
                 rows={3}
                 required

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, User } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AnimatedBackground } from "@/components/background";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { useTheme } from "@/components/ThemeProvider";
 import type { BlogDetailResponse } from "@/types";
@@ -21,9 +22,10 @@ export function BlogDetailClient({ detail }: { detail: BlogDetailResponse }) {
   }, [post.content]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative isolate min-h-screen flex flex-col">
+      <AnimatedBackground variant="blog" fixed />
       <Navbar />
-      <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="relative z-10 flex-1 mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         <Link
           href="/blog"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:underline"

@@ -489,3 +489,38 @@ async def test_files_management_and_ast_calculator_tool():
 
         owner_del = await client.delete(f"/api/v1/files/{att_id}", headers=h1)
         assert owner_del.status_code == 204
+
+
+@pytest.mark.asyncio
+async def test_content_safety_moderation_and_all_provider_models():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        caps = await client.get("/api/v1/settings/capabilities")
+        assert caps.status_code == 200
+        providers = {p["id"]: p for p in caps.json()["llm_providers"]}
+        assert "gpt-4o" in providers["openai"]["models"]
+        assert "gpt-4.1" in providers["openai"]["models"]
+        assert "gemini-2.5-flash" in providers["gemini"]["models"]
+        assert "gemini-2.5-pro" in providers["gemini"]["models"]
+
+        s1 = await client.post(
+            "/api/v1/auth/signup",
+            json={"email": "safety1@example.com", "full_name": "Safety", "password": "StrongPass123"},
+        )
+        headers = {"Authorization": f"Bearer {s1.json()['access_token']}"}
+
+        # Block unsafe NSFW/explicit prompts before provider execution on image & chat
+        bad_img = await client.post(
+            "/api/v1/images/generate",
+            headers=headers,
+            json={"prompt": "explicit porn nude image", "provider": "openai"},
+        )
+        assert bad_img.status_code == 400
+        assert bad_img.json()["detail"]["code"] == "CONTENT_POLICY_VIOLATION"
+
+        bad_chat = await client.post(
+            "/api/v1/chat/stream",
+            headers=headers,
+            json={"content": "generate explicit porn story"},
+        )
+        assert bad_chat.status_code == 400
+        assert bad_chat.json()["detail"]["code"] == "CONTENT_POLICY_VIOLATION"

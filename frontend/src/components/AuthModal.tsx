@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Loader2, Lock, Mail, User as UserIcon, X } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
+import { PasswordInput } from "./PasswordInput";
 import { SurajLogo } from "./SurajLogo";
 import type { AuthResponse } from "@/types";
 
@@ -207,18 +208,14 @@ export function AuthModal({
                 <label className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-300">
                   Password
                 </label>
-                <div className="relative">
-                  <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="password"
-                    required
-                    minLength={mode === "signup" ? 8 : 1}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder={mode === "signup" ? "At least 8 chars (letter + digit)" : "Enter your password"}
-                    className="w-full rounded-xl border border-slate-200 bg-white/70 py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none focus:border-cyan-500 dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
-                  />
-                </div>
+                <PasswordInput
+                  required
+                  minLength={mode === "signup" ? 8 : 1}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  leftIcon={<Lock className="h-4 w-4" />}
+                  placeholder={mode === "signup" ? "At least 8 chars (letter + digit)" : "Enter your password"}
+                />
                 {mode === "signup" && password && (
                   <div className="mt-1.5 space-y-1">
                     <div className="flex gap-1">
@@ -242,18 +239,14 @@ export function AuthModal({
                     <label className="mb-1 block text-xs font-medium text-slate-600 dark:text-slate-300">
                       Confirm Password
                     </label>
-                    <div className="relative">
-                      <Check className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="password"
-                        required
-                        minLength={8}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Re-enter password"
-                        className="w-full rounded-xl border border-slate-200 bg-white/70 py-2.5 pl-9 pr-3 text-sm text-slate-900 outline-none focus:border-cyan-500 dark:border-white/10 dark:bg-white/[0.04] dark:text-white"
-                      />
-                    </div>
+                    <PasswordInput
+                      required
+                      minLength={8}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      leftIcon={<Check className="h-4 w-4" />}
+                      placeholder="Re-enter password"
+                    />
                   </div>
 
                   <label className="flex cursor-pointer items-start gap-2 pt-1 text-xs text-slate-600 dark:text-slate-300">

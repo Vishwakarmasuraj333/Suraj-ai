@@ -4,12 +4,15 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Activity } from "lucide-react";
 import { SurajLogo } from "@/components/SurajLogo";
+import { AnimatedBackground } from "@/components/background";
 import { API_BASE } from "@/lib/api";
 
 interface HealthState {
   status: string;
-  database: string;
+  database?: string;
+  database_engine?: string;
   redis?: string;
+  redis_status?: string;
 }
 
 export function Footer() {
@@ -23,24 +26,27 @@ export function Footer() {
         if (active && data) setHealth(data);
       })
       .catch(() => {
-        if (active) setHealth({ status: "unreachable", database: "unknown" });
+        if (active) setHealth({ status: "unreachable", database_engine: "unknown" });
       });
     return () => {
       active = false;
     };
   }, []);
 
+  const dbLabel = health?.database_engine || health?.database || "connected";
+  const redisLabel = health?.redis_status || health?.redis;
   const healthLabel = !health
     ? "Checking live backend health..."
     : health.status === "ok"
-      ? `API healthy • DB ${health.database}${health.redis ? ` • Cache ${health.redis}` : ""}`
+      ? `API healthy • DB ${dbLabel}${redisLabel ? ` • Cache ${redisLabel}` : ""}`
       : `Backend status: ${health.status}`;
 
   const isHealthy = health?.status === "ok";
 
   return (
-    <footer className="border-t border-slate-200/80 bg-slate-50/90 text-slate-600 dark:border-white/10 dark:bg-[#030610] dark:text-slate-400">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <footer className="relative isolate overflow-hidden border-t border-slate-200/80 bg-slate-50/80 text-slate-600 backdrop-blur-xl dark:border-white/10 dark:bg-[#030610]/85 dark:text-slate-400">
+      <AnimatedBackground variant="footer" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-6">
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
@@ -186,9 +192,9 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-slate-200/80 pt-8 text-xs dark:border-white/10 sm:flex-row sm:items-center">
-          <p>© 2026 SURaj AI. All rights reserved.</p>
+          <p>© 2026 SURAJ AI • Created by Suraj Vishwakarma. All rights reserved.</p>
           <p className="text-slate-500 dark:text-slate-500">
-            Modular Multi-Provider AI Architecture • Zero Fabricated AI Outputs
+            Modular OpenAI &amp; Gemini Orchestration • Zero Fabricated AI Outputs
           </p>
         </div>
       </div>

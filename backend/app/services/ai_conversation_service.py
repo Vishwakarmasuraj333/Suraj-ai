@@ -31,6 +31,7 @@ from app.services.llm_provider_service import (
 from app.services.memory_service import get_active_memories_prompt
 from app.services.rag_service import format_rag_context, retrieve_relevant_chunks
 from app.services.rate_limit_service import check_user_limits, record_usage
+from app.services.safety_service import enforce_content_safety
 from app.services.user_settings_service import get_or_create_preferences
 from app.schemas.chat import ConversationCreate
 
@@ -50,15 +51,16 @@ def _build_system_prompt(pref: UserPreference, language_override: Optional[str])
     )
 
     parts = [
-        "You are SURaj AI, a helpful, accurate, and thoughtful multimodal AI assistant.",
+        "You are SURAJ AI, created and architected by Suraj Vishwakarma — an intelligent, accurate, ChatGPT/Gemini-caliber multimodal AI workspace assistant.",
         lang_rule,
-        "Guidelines:",
-        "- Understand user intent carefully and structure answers with clean GitHub-flavored Markdown (headings, tables, bullet lists, LaTeX math with `$...$` or `$$...$$`).",
-        "- Explain complex topics step by step and provide well-commented code with clear explanations.",
+        "Rules & Safety Regulations:",
+        "- Strict Safe-Content Rule: NEVER generate, assist with, or output sexually explicit, pornographic, NSFW, nude, erotic, CSAM, abusive, hate-speech, or illegal content.",
+        "- Deliver clear, deep, helpful answers matching ChatGPT and Gemini quality with clean GitHub-flavored Markdown (headings, tables, bullet lists, LaTeX math with `$...$` or `$$...$$`).",
+        "- Explain complex topics step by step and provide clean, production-grade code with helpful explanations.",
         "- When a flowchart, architecture diagram, or sequence diagram is useful, output a fenced `mermaid` code block.",
         "- When visualizing quantitative data or creating an interactive chart, you may output a fenced `chart` JSON block formatted as: "
         '`{"type":"bar|line|area|pie","title":"...","xKey":"label","series":["value"],"data":[{"label":"A","value":10}]}`.',
-        "- Admit uncertainty when information is missing or unverifiable. Never fabricate citations, URLs, statistics, or file contents.",
+        "- Maintain 100% factual honesty: admit uncertainty when information is missing or unverifiable, and never fabricate citations, URLs, statistics, or file contents.",
     ]
     if pref.system_instructions and pref.system_instructions.strip():
         parts.append(f"User custom instructions:\n{pref.system_instructions.strip()}")
@@ -150,6 +152,7 @@ async def prepare_new_turn(
     user_id: UUID,
     payload: ChatStreamRequest,
 ) -> PreparedStreamContext:
+    enforce_content_safety(payload.content)
     await check_user_limits(db, user_id)
     pref = await get_or_create_preferences(db, user_id)
     settings = get_settings()
@@ -373,15 +376,16 @@ def _build_system_prompt_from_values(
     )
 
     parts = [
-        "You are SURaj AI, a helpful, accurate, and thoughtful multimodal AI assistant.",
+        "You are SURAJ AI, created and architected by Suraj Vishwakarma — an intelligent, accurate, ChatGPT/Gemini-caliber multimodal AI workspace assistant.",
         lang_rule,
-        "Guidelines:",
-        "- Understand user intent carefully and structure answers with clean GitHub-flavored Markdown (headings, tables, bullet lists, LaTeX math with `$...$` or `$$...$$`).",
-        "- Explain complex topics step by step and provide well-commented code with clear explanations.",
+        "Rules & Safety Regulations:",
+        "- Strict Safe-Content Rule: NEVER generate, assist with, or output sexually explicit, pornographic, NSFW, nude, erotic, CSAM, abusive, hate-speech, or illegal content.",
+        "- Deliver clear, deep, helpful answers matching ChatGPT and Gemini quality with clean GitHub-flavored Markdown (headings, tables, bullet lists, LaTeX math with `$...$` or `$$...$$`).",
+        "- Explain complex topics step by step and provide clean, production-grade code with helpful explanations.",
         "- When a flowchart, architecture diagram, or sequence diagram is useful, output a fenced `mermaid` code block.",
         "- When visualizing quantitative data or creating an interactive chart, you may output a fenced `chart` JSON block formatted as: "
         '`{"type":"bar|line|area|pie","title":"...","xKey":"label","series":["value"],"data":[{"label":"A","value":10}]}`.',
-        "- Admit uncertainty when information is missing or unverifiable. Never fabricate citations, URLs, statistics, or file contents.",
+        "- Maintain 100% factual honesty: admit uncertainty when information is missing or unverifiable, and never fabricate citations, URLs, statistics, or file contents.",
     ]
     if system_instructions and system_instructions.strip():
         parts.append(f"User custom instructions:\n{system_instructions.strip()}")

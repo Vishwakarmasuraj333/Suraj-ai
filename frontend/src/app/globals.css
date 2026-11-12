@@ -20,8 +20,8 @@
 .dark {
   --bg-primary: #040712;
   --bg-surface: #090e21;
-  --bg-elevated: rgba(13, 19, 38, 0.84);
-  --bg-glass: rgba(9, 14, 33, 0.72);
+  --bg-elevated: rgba(7, 11, 26, 0.90);
+  --bg-glass: rgba(7, 11, 26, 0.84);
   --border-subtle: rgba(148, 163, 184, 0.14);
   --border-glow: rgba(34, 211, 238, 0.32);
   --text-primary: #f8fafc;
@@ -71,16 +71,162 @@ body {
   color: transparent;
 }
 
-/* Perspective grid floor for hero & visual sections */
+/* Perspective grid floor with smooth infinite scroll */
+@keyframes gridHorizonFlow {
+  0% {
+    background-position: 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 0px 56px, 0px 56px;
+  }
+}
+
+@keyframes neonLineHorizontal {
+  0% {
+    transform: translate3d(-110%, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  88% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(115%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes neonLineVertical {
+  0% {
+    transform: translate3d(0, -110%, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(0, 115%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes neonBeamSweep {
+  0% {
+    transform: translate3d(-45%, -10%, 0) rotate(-24deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.72;
+  }
+  80% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(145%, 12%, 0) rotate(-24deg);
+    opacity: 0;
+  }
+}
+
+@keyframes neonBeamVerticalSweep {
+  0% {
+    transform: translate3d(-20%, -35%, 0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.55;
+  }
+  75% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(25%, 110%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes auroraDriftA {
+  0% {
+    transform: translate3d(0%, 0%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(7%, 4%, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(-4%, 6%, 0) scale(0.96);
+  }
+}
+
+@keyframes auroraDriftB {
+  0% {
+    transform: translate3d(0%, 0%, 0) scale(1.04);
+  }
+  50% {
+    transform: translate3d(-8%, -5%, 0) scale(0.95);
+  }
+  100% {
+    transform: translate3d(5%, -3%, 0) scale(1.08);
+  }
+}
+
+@keyframes pulseRingExpand {
+  0% {
+    transform: scale(0.76);
+    opacity: 0.62;
+  }
+  70% {
+    opacity: 0.16;
+  }
+  100% {
+    transform: scale(1.36);
+    opacity: 0;
+  }
+}
+
+@keyframes ragScanLine {
+  0% {
+    transform: translate3d(0, -10%, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.75;
+  }
+  85% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(0, 420px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes synapseDashFlow {
+  0% {
+    stroke-dashoffset: 64;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
 .perspective-grid-floor {
   background-image:
-    linear-gradient(to right, rgba(34, 211, 238, 0.14) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(139, 92, 246, 0.14) 1px, transparent 1px);
-  background-size: 48px 48px;
-  transform: perspective(650px) rotateX(68deg);
+    linear-gradient(to right, rgba(34, 211, 238, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.24) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(680px) rotateX(69deg);
   transform-origin: center top;
-  mask-image: radial-gradient(ellipse 80% 75% at 50% 25%, #000 10%, transparent 82%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 25%, #000 10%, transparent 82%);
+  animation: gridHorizonFlow 14s linear infinite;
+  mask-image: radial-gradient(ellipse 90% 82% at 50% 20%, #000 18%, transparent 86%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 82% at 50% 20%, #000 18%, transparent 86%);
+}
+
+.bg-paused * {
+  animation-play-state: paused !important;
 }
 
 /* Custom sleek scrollbars */
@@ -187,7 +333,9 @@ body {
   .animate-pulse-soft,
   .animate-orbit-slow,
   .animate-orbit-reverse,
-  .animate-float-subtle {
+  .animate-float-subtle,
+  .perspective-grid-floor,
+  .suraj-motion-el {
     animation: none !important;
   }
 }
