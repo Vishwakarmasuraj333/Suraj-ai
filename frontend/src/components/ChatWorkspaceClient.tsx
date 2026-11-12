@@ -9,3 +9,4 @@ export function ChatWorkspaceClient() {
   const initialTool = searchParams.get("tool") || undefined;
   return <ChatWorkspace initialTool={initialTool} />;
 }
+

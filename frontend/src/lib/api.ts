@@ -170,7 +170,11 @@ export const api = {
   deleteConversation: (id: string) =>
     request<void>(`/conversations/${id}`, { method: "DELETE" }),
 
-  // Files
+  // Files & Knowledge RAG Document Manager
+  listFiles: () => request<AttachmentSummary[]>("/files"),
+  deleteFile: (attachmentId: string) =>
+    request<void>(`/files/${attachmentId}`, { method: "DELETE" }),
+
   uploadFile: async (file: File, conversationId?: string): Promise<AttachmentSummary> => {
     const form = new FormData();
     form.append("file", file);
@@ -211,6 +215,17 @@ export const api = {
 
   // Usage
   usageSummary: () => request<UsageSummary>("/usage/summary"),
+
+  // Tools
+  toolsStatus: () =>
+    request<Array<{ id: string; name: string; status: string; implemented: boolean }>>(
+      "/tools/status"
+    ),
+  calculate: (expression: string) =>
+    request<{ expression: string; result: number }>("/tools/calculate", {
+      method: "POST",
+      body: JSON.stringify({ expression }),
+    }),
 
   // Persistent AI Memory
   listMemories: () => request<UserMemory[]>("/memories"),

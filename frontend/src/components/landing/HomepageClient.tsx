@@ -459,3 +459,4 @@ export function HomepageClient({ initialFeaturedPosts = [] }: { initialFeaturedP
     </div>
   );
 }
+

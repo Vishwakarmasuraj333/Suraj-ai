@@ -109,7 +109,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#architecture" className="hover:text-cyan-500 transition-colors">
+                <Link href="/docs" className="hover:text-cyan-500 transition-colors">
                   Documentation & API
                 </Link>
               </li>

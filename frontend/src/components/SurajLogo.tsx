@@ -7,6 +7,7 @@ interface SurajLogoProps {
   iconOnly?: boolean;
   showWordmark?: boolean;
   showSub?: boolean;
+  variant?: "auto" | "light" | "dark";
   className?: string;
 }
 
@@ -15,17 +16,30 @@ export function SurajLogo({
   iconOnly = false,
   showWordmark = true,
   showSub = false,
+  variant = "auto",
   className = "",
 }: SurajLogoProps) {
   const hideWordmark = iconOnly || showWordmark === false;
   const uid = useId().replace(/:/g, "");
   const ringGradId = `suraj-ring-${uid}`;
   const coreGradId = `suraj-core-${uid}`;
+  const badgeBg =
+    variant === "light"
+      ? "bg-white/95 ring-cyan-500/35"
+      : variant === "dark"
+        ? "bg-slate-950/90 ring-cyan-400/30"
+        : "bg-white/90 dark:bg-slate-950/90 ring-cyan-500/30 dark:ring-cyan-400/30";
+  const textTone =
+    variant === "light"
+      ? "text-slate-900"
+      : variant === "dark"
+        ? "text-white"
+        : "text-slate-900 dark:text-white";
 
   return (
     <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
       <div
-        className="relative flex shrink-0 items-center justify-center rounded-xl bg-slate-950/90 p-1 shadow-[0_0_24px_-6px_rgba(34,211,238,0.55)] ring-1 ring-cyan-400/30"
+        className={`relative flex shrink-0 items-center justify-center rounded-xl p-1 shadow-[0_0_24px_-6px_rgba(34,211,238,0.45)] ring-1 ${badgeBg}`}
         style={{ width: size, height: size }}
       >
         <svg viewBox="0 0 48 48" fill="none" className="h-full w-full" aria-hidden="true">
@@ -77,7 +91,7 @@ export function SurajLogo({
       {!hideWordmark && (
         <div className="flex flex-col leading-none">
           <div className="flex items-center gap-1.5">
-            <span className="text-[17px] font-bold tracking-tight text-slate-900 dark:text-white">
+            <span className={`text-[17px] font-bold tracking-tight ${textTone}`}>
               SURaj
             </span>
             <span className="rounded-md bg-gradient-to-r from-cyan-500 via-blue-600 to-fuchsia-500 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">

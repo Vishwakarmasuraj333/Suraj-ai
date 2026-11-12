@@ -237,3 +237,4 @@ export function WorkspacePreview({ capabilities }: { capabilities: Capabilities 
     </section>
   );
 }
+

@@ -53,3 +53,4 @@ export const FAQ_ITEMS: FaqItem[] = [
     a: "Visit /pricing or the Pricing section to inspect Developer, Pro Workspace, and Enterprise tiers. Paid upgrades initiate real Stripe or Razorpay checkout sessions once payment gateway credentials are configured on the server.",
   },
 ];
+

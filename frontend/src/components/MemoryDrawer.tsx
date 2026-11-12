@@ -276,3 +276,4 @@ export function MemoryDrawer({ isOpen, onClose, user, onOpenAuth }: MemoryDrawer
     </AnimatePresence>
   );
 }
+

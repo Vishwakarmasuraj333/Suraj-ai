@@ -153,6 +153,12 @@ export function Navbar() {
                 </Link>
               )}
               <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-1 rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-2.5 py-1.5 text-xs font-semibold text-cyan-700 hover:bg-cyan-500/20 dark:text-cyan-300"
+              >
+                Dashboard
+              </Link>
+              <Link
                 href="/auth"
                 className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-cyan-400/40 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
               >

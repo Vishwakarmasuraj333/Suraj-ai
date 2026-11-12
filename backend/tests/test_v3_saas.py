@@ -434,3 +434,58 @@ async def test_newsletter_subscribe_consent_and_unsubscribe():
         )
         assert unsub.status_code == 200
         assert unsub.json()["unsubscribed"] is True
+
+
+@pytest.mark.asyncio
+async def test_files_management_and_ast_calculator_tool():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        s1 = await client.post(
+            "/api/v1/auth/signup",
+            json={"email": "tool1@example.com", "full_name": "T1", "password": "StrongPass123"},
+        )
+        s2 = await client.post(
+            "/api/v1/auth/signup",
+            json={"email": "tool2@example.com", "full_name": "T2", "password": "StrongPass123"},
+        )
+        h1 = {"Authorization": f"Bearer {s1.json()['access_token']}"}
+        h2 = {"Authorization": f"Bearer {s2.json()['access_token']}"}
+
+        # Tools status
+        st = await client.get("/api/v1/tools/status")
+        assert st.status_code == 200
+        assert any(t["id"] == "calculator" and t["implemented"] is True for t in st.json())
+
+        # Safe calculator evaluation + unsafe syntax block
+        calc_ok = await client.post(
+            "/api/v1/tools/calculate",
+            headers=h1,
+            json={"expression": "sqrt(144) + 2 ** 3"},
+        )
+        assert calc_ok.status_code == 200
+        assert calc_ok.json()["result"] == 20
+
+        calc_bad = await client.post(
+            "/api/v1/tools/calculate",
+            headers=h1,
+            json={"expression": "__import__('os').system('echo pwned')"},
+        )
+        assert calc_bad.status_code == 400
+
+        # Upload file, list files, isolate cross-user delete, delete as owner
+        up = await client.post(
+            "/api/v1/files/upload",
+            headers=h1,
+            files={"file": ("notes.txt", b"FastAPI and PostgreSQL RAG guide", "text/plain")},
+        )
+        assert up.status_code == 201
+        att_id = up.json()["id"]
+
+        listed = await client.get("/api/v1/files", headers=h1)
+        assert listed.status_code == 200
+        assert any(f["id"] == att_id for f in listed.json())
+
+        cross_del = await client.delete(f"/api/v1/files/{att_id}", headers=h2)
+        assert cross_del.status_code == 404
+
+        owner_del = await client.delete(f"/api/v1/files/{att_id}", headers=h1)
+        assert owner_del.status_code == 204

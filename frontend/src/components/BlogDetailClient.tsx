@@ -151,3 +151,4 @@ export function BlogDetailClient({ detail }: { detail: BlogDetailResponse }) {
     </div>
   );
 }
+

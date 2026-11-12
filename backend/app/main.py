@@ -21,6 +21,7 @@ from app.api.routes import (
     memories,
     newsletter,
     settings,
+    tools,
     usage,
 )
 from app.core.config import get_settings
@@ -147,4 +148,5 @@ app.include_router(billing.router, prefix="/api/v1")
 app.include_router(contact.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
 app.include_router(settings.router, prefix="/api/v1")
+app.include_router(tools.router, prefix="/api/v1")
 app.include_router(usage.router, prefix="/api/v1")

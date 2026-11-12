@@ -190,3 +190,4 @@ export function BlogListClient({
     </div>
   );
 }
+
